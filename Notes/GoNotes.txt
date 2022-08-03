@@ -1,7 +1,0 @@
-/***********************/
-go: modules disabled by GO111MODULE=off; see 'go help modules' hatasında module on yapmak gerekiyor:
-go env -w GO111MODULE=on console da çalıştır.
-/***********************/
-
-DDD
-hexagonal architecture
