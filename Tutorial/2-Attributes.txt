@@ -1,0 +1,65 @@
+using System;
+using System.ComponentModel.DataAnnotations;
+
+namespace Attributes
+{
+    class Program
+    {
+        static void Main(string[] args)
+        {
+            Customer customer = new Customer { Id = 1, Lastname = "Cihan", Age = 32 };
+            CustomerDal customerDal = new CustomerDal();
+            customerDal.Add(customer);
+            Console.ReadLine();
+        }
+    }
+
+    [ToTable("Customers")]
+    class Customer
+    {
+        public int Id { get; set; }
+        [RequiredProperty]
+        public string Firstname { get; set; }
+        [RequiredProperty]
+        public string Lastname { get; set; }
+        [RequiredProperty]
+        public int Age { get; set; }
+    }
+
+    class CustomerDal
+    {
+        //bir methodun eski olduğunu belirtmek için kullanılan attribute 
+        [Obsolete("Dont use add, instead use AddNew Method")] 
+        public void Add(Customer customer)
+        {
+            Console.WriteLine("{0},{1},{2},{3} added!", customer.Id, customer.Firstname, customer.Lastname, customer.Age);
+        }
+
+        public void AddNew(Customer customer)
+        {
+            Console.WriteLine("{0},{1},{2},{3} added new!", customer.Id, customer.Firstname, customer.Lastname, customer.Age);
+        }
+    }
+
+    [AttributeUsage(AttributeTargets.Property, AllowMultiple =true)]
+    class RequiredPropertyAttribute:Attribute
+    {
+        //AttributeTargets.All bu özelliği her yerde kullanabilirsin demektir.
+        //AttributeTargets.Class sadece class lara özel kullanılabilir.
+        // (AttributeTargets.Property | AttributeTargets.Field) şekilde ikili de kullanılabilir.
+        // AllowMultiple =true bir attribute u birden fazla kullanıma açıp kapatma olayı
+        //
+    }
+
+    [AttributeUsage(AttributeTargets.Class)]
+    class ToTableAttribute:Attribute
+    {
+        private string _tablename;
+        public ToTableAttribute(string tablename)
+        {
+            _tablename = tablename;
+        }
+    }
+
+
+}
