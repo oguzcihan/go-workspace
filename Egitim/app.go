@@ -10,7 +10,7 @@ func main() {
 	fmt.Println("Kullanıcı oluşturma v1")
 	user1 := &User{
 		ID:        1,
-		Firstname: "Oğğuz",
+		Firstname: "Oğuz",
 		Lastname:  "Cihan",
 		Username:  "ocihan",
 		Age:       24,
