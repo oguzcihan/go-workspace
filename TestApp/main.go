@@ -6,12 +6,15 @@ import (
 	"TestApp/entity"
 	"log"
 	"net/http"
+	"os"
 
 	"github.com/gorilla/mux"
+	"github.com/joho/godotenv"
 	_ "github.com/lib/pq"
 )
 
 func main() {
+	os.Setenv("PORT", "8080")
 	initialDatabase()
 	log.Println("HTTP server 9090 started")
 
@@ -40,4 +43,12 @@ func initialDatabase() {
 	}
 
 	database.Migrate(&entity.Person{})
+}
+
+func dotEnv(key string) string {
+	err := godotenv.Load(".env")
+	if err != nil {
+		log.Fatal("Error loading .env file")
+	}
+	return os.Getenv(key)
 }

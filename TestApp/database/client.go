@@ -3,8 +3,10 @@ package database
 import (
 	"TestApp/entity"
 	"log"
+	"os"
 
 	"github.com/jinzhu/gorm"
+	"github.com/joho/godotenv"
 )
 
 //CRUD operasyonları için değişken oluşturuldu
@@ -13,7 +15,8 @@ var Connector *gorm.DB
 //Connect Postgres
 func Connect(connectionString string) error {
 	var err error
-	Connector, err = gorm.Open("postgres", connectionString)
+	godotenv.Load(".env") //load yapılamsı gerekir
+	Connector, err = gorm.Open(os.Getenv("SQL_DIALECT"), os.Getenv("CONNECTION_STRING"))
 	if err != nil {
 		return err
 	}
