@@ -1,0 +1,21 @@
+server:
+  name: TestApp
+  port: 9090
+
+sql:
+  driver: postgres
+  data_source_name: user=postgres password=postgres host=localhost port=5432 dbname=testAppDb sslmode=disable
+
+log:
+  level: info
+  map:
+    time: "@timestamp"
+    msg: message
+
+middleware:
+  log: true
+  skips: /health
+  request: request
+  response: response
+  size: size
+
