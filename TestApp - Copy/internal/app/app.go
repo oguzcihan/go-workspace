@@ -6,16 +6,13 @@ import (
 	. "TestApp/internal/repository"
 	. "TestApp/internal/services"
 	"context"
-	"github.com/core-go/health"
-	. "github.com/core-go/health/sql"
 	_ "github.com/lib/pq"
 	p "gorm.io/driver/postgres"
 	"gorm.io/gorm"
 )
 
 type ApplicationContext struct {
-	Health *health.Handler
-	User   UserHandler
+	User UserHandler
 }
 
 func NewApp(ctx context.Context, conf Config) (*ApplicationContext, error) {
@@ -36,11 +33,8 @@ func NewApp(ctx context.Context, conf Config) (*ApplicationContext, error) {
 	userRepository := NewUserRepository(ormDB)
 	userService := NewUserService(userRepository)
 	userHandler := NewUserHandler(userService)
-	sqlChecker := NewHealthChecker(db)
-	healthHandler := health.NewHandler(sqlChecker)
 
 	return &ApplicationContext{
-		Health: healthHandler,
-		User:   userHandler,
+		User: userHandler,
 	}, nil
 }

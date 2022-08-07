@@ -1,0 +1,27 @@
+//func (u userRepository) Create(user *User) (int64, error) {
+//	//TODO kayıt işlemi yapılacak
+//	//ctx, cancel := WithCancel(context)
+//	//defer cancel()
+//	//select {
+//	//case <-ctx.Done():
+//	//	fmt.Println(ctx.Err())
+//	//	os.Exit(1)
+//	//default:
+//	//	fmt.Println("Request done")
+//	//}
+//	res := u.DB.Create(&user)
+//	if res == nil {
+//		err := errors.New("Boş değer gönderildi")
+//		os.Exit(1)
+//		return 0, err
+//	}
+//	return res.RowsAffected, errors.New("Kayıt edildi")
+//}
+
+
+func checkError(err error) {
+	if err != nil {
+		fmt.Println("Fatal Error:" + err.Error())
+		os.Exit(1)
+	}
+}

@@ -1,7 +1,0 @@
-server:
-  name: TestApp
-  port: 9090
-
-sql:
-  driver: postgres
-  data_source_name: user=postgres password=postgres host=localhost port=5432 dbname=testAppDb sslmode=disable
