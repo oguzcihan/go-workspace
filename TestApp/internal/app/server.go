@@ -20,3 +20,9 @@ func RunServer() {
 
 	log.Fatal(http.ListenAndServe(":9090", r))
 }
+
+/*
+	context.Backgrounf(): Boş bir contexttir, deadline ı bulunmaz iptal edilemez
+	üretilen contextler için taban olarak kullanılabilir
+	context.TODO(): Ne kullanılacağından emin olmadığında kullanılır
+*/

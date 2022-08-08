@@ -6,19 +6,19 @@ import (
 	. "context"
 )
 
-type UserService interface {
-	Create(context Context, user *User) (*User, error)
+//type UserService interface {
+//	Create(context Context, user *User) (*User, error)
+//}
+
+func NewUserService(_repository UserRepository) *UserService {
+	return &UserService{repository: _repository}
 }
 
-func NewUserService(_repository UserRepository) UserService {
-	return &userService{repository: _repository}
-}
-
-type userService struct {
+type UserService struct {
 	repository UserRepository
 }
 
-func (service *userService) Create(context Context, user *User) (*User, error) {
+func (service UserService) Create(context Context, user *User) (*User, error) {
 	//TODO:id li user kayıt edildi bildirimi verilebilir
 	return service.repository.Create(context, user)
 }

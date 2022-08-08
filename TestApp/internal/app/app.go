@@ -7,30 +7,22 @@ import (
 	"TestApp/internal/repository"
 	"TestApp/internal/service"
 	. "context"
-	"gorm.io/gorm"
 )
 
-var db *gorm.DB
+//var database *gorm.DB
 
 type ApplicationContext struct {
 	User handler.UserHandler
 }
 
 func NewApplication(context Context) (*ApplicationContext, error) {
-	dbConnection(&User{})
 
-	userRepository := repository.NewUserRepository(db)
-	userService := service.NewUserService(userRepository)
-	userHandler := handler.NewUserHandler(userService)
+	database := config.DatabaseConnection(&User{}) //dönüş olarak database gönderir
+
+	userRepository := repository.NewUserRepository(database)
+	userService := service.NewUserService(*userRepository)
+	userHandler := handler.NewUserHandler(*userService)
+	//exit yapılabilir app boş dönebilir error msg
 
 	return &ApplicationContext{User: userHandler}, nil
-}
-
-func dbConnection(x interface{}) {
-	config.ConnectDB()
-	db = config.GetDB()
-	err := db.AutoMigrate(x)
-	if err != nil {
-		return
-	}
 }

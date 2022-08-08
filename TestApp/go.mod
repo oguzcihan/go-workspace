@@ -5,7 +5,6 @@ go 1.19
 require (
 	github.com/gorilla/mux v1.8.0
 	github.com/joho/godotenv v1.4.0
-	golang.org/x/net v0.0.0-20211112202133-69e39bad7dc2
 	gorm.io/driver/postgres v1.3.8
 	gorm.io/gorm v1.23.8
 )

@@ -7,17 +7,26 @@ import (
 	"os"
 )
 
-var db *gorm.DB
+var database *gorm.DB
 
-func ConnectDB() {
-	godotenv.Load(".env")
+func ConnectDatabase() {
+	err := godotenv.Load(".env")
+	if err != nil {
+		return
+	}
 	DB, err := gorm.Open(pq.Open(os.Getenv("CONNECTION_STRING")), &gorm.Config{})
 	if err != nil {
 		panic(err)
 	}
-	db = DB
+	database = DB
 }
 
-func GetDB() *gorm.DB {
-	return db
+func DatabaseConnection(x interface{}) *gorm.DB {
+	//database classında çalışmalı
+	ConnectDatabase()
+	err := database.AutoMigrate(x)
+	if err != nil {
+		return nil
+	}
+	return database
 }
