@@ -8,7 +8,7 @@ func main() {
 
 	app.RunServer()
 
-	//TODO:	//field eklenecek
+	//TODO:	//field eklenecek DONE
 	//	//username tek
 	//	//deleted sa tekrar oluşabilir username ile kontrol
 	//	//lastname boş ise errror
@@ -16,5 +16,5 @@ func main() {
 	//	//tc kontrolü
 	//	//zorunsuz alanlarda kullanılacak
 	//	//password eklenecek validation kontrol
-	//	//update delete olacak
+	//	//update delete olacak in progress
 }

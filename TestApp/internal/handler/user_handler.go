@@ -5,6 +5,7 @@ import (
 	. "TestApp/internal/service"
 	"encoding/json"
 	"net/http"
+	"strconv"
 )
 
 type UserHandler interface {
@@ -27,7 +28,9 @@ func (uHandler *userHandler) Create(w http.ResponseWriter, r *http.Request) {
 		http.Error(w, error1.Error(), http.StatusBadRequest)
 		return
 	}
-
+	//TODO: TC algoritması kullanılarak gerçekten TC mi kontrolü yapılabilir
+	//checkTcNo(user.TcNo)
+	//checkUserName(user.UserName)
 	resUser, error2 := uHandler.service.Create(r.Context(), &user)
 	if error2 != nil {
 		http.Error(w, error2.Error(), http.StatusInternalServerError)
@@ -37,8 +40,21 @@ func (uHandler *userHandler) Create(w http.ResponseWriter, r *http.Request) {
 	err := JSON(w, http.StatusCreated, resUser)
 	if err != nil {
 		return
+
 	}
 
+}
+
+func checkTcNo(tcNo int64) bool {
+	lengthTcNo := len(strconv.Itoa(int(tcNo)))
+	if lengthTcNo < 11 || lengthTcNo > 11 || lengthTcNo == 0 {
+		return false
+	} else {
+		return true
+	}
+}
+func checkUserName(userName string) string {
+	return "nil"
 }
 
 func JSON(w http.ResponseWriter, code int, res interface{}) error {
