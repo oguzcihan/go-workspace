@@ -16,7 +16,7 @@ type ApplicationContext struct {
 }
 
 func NewApplication(context Context) (*ApplicationContext, error) {
-
+	//fazla olursa
 	database := config.DatabaseConnection(&User{}) //dönüş olarak database gönderir
 
 	userRepository := repository.NewUserRepository(database)

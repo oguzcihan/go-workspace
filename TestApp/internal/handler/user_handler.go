@@ -31,6 +31,7 @@ func (uHandler *userHandler) Create(w http.ResponseWriter, r *http.Request) {
 	//TODO: TC algoritması kullanılarak gerçekten TC mi kontrolü yapılabilir
 	//checkTcNo(user.TcNo)
 	//checkUserName(user.UserName)
+	//utils.RegisterUserValidator()
 	resUser, error2 := uHandler.service.Create(r.Context(), &user)
 	if error2 != nil {
 		http.Error(w, error2.Error(), http.StatusInternalServerError)
@@ -52,9 +53,6 @@ func checkTcNo(tcNo int64) bool {
 	} else {
 		return true
 	}
-}
-func checkUserName(userName string) string {
-	return "nil"
 }
 
 func JSON(w http.ResponseWriter, code int, res interface{}) error {

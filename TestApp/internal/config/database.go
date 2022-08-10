@@ -10,7 +10,7 @@ import (
 var database *gorm.DB
 
 func ConnectDatabase() {
-	err := godotenv.Load(".env")
+	err := godotenv.Load(".env") //systemenv de alınacak
 	if err != nil {
 		return
 	}
@@ -23,7 +23,8 @@ func ConnectDatabase() {
 
 func DatabaseConnection(x interface{}) *gorm.DB {
 	//database classında çalışmalı
-	ConnectDatabase()
+	//migrate ayrı olmalı
+	ConnectDatabase() //return olarak dönmeli
 	err := database.AutoMigrate(x)
 	if err != nil {
 		return nil
