@@ -17,6 +17,7 @@ func main() {
 	//	//update delete olacak in progress
 
 	//TestUserValidator()
+	//fmt.Println("Test:" + os.Getenv("PgConnection"))
 }
 
 //type User struct {

@@ -1,7 +1,6 @@
 package config
 
 import (
-	"github.com/joho/godotenv"
 	pq "gorm.io/driver/postgres"
 	"gorm.io/gorm"
 	"os"
@@ -10,11 +9,8 @@ import (
 var database *gorm.DB
 
 func ConnectDatabase() {
-	err := godotenv.Load(".env") //systemenv de alınacak
-	if err != nil {
-		return
-	}
-	DB, err := gorm.Open(pq.Open(os.Getenv("CONNECTION_STRING")), &gorm.Config{})
+	pgConnection := os.Getenv("PgConnection")
+	DB, err := gorm.Open(pq.Open(pgConnection), &gorm.Config{})
 	if err != nil {
 		panic(err)
 	}
@@ -24,7 +20,7 @@ func ConnectDatabase() {
 func DatabaseConnection(x interface{}) *gorm.DB {
 	//database classında çalışmalı
 	//migrate ayrı olmalı
-	ConnectDatabase() //return olarak dönmeli
+	ConnectDatabase() //return database olarak dönmeli
 	err := database.AutoMigrate(x)
 	if err != nil {
 		return nil
