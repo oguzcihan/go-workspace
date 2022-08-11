@@ -1,6 +1,7 @@
 package service
 
 import (
+	"TestApp/internal/dtos"
 	. "TestApp/internal/model"
 	. "TestApp/internal/repository"
 	. "context"
@@ -18,7 +19,15 @@ type UserService struct {
 	repository UserRepository
 }
 
-func (service UserService) Create(context Context, user *User) (*User, error) {
+func (service UserService) Create(context Context, userDto dtos.UserDto) (*User, error) {
 	//TODO:id li user kayıt edildi bildirimi verilebilir
-	return service.repository.Create(context, user)
+	userData := User{
+		TcNo:      userDto.TcNo,
+		UserName:  userDto.UserName,
+		Firstname: userDto.Firstname,
+		Lastname:  userDto.Lastname,
+		Email:     userDto.Email,
+		Password:  userDto.Password,
+	}
+	return service.repository.Create(context, &userData)
 }

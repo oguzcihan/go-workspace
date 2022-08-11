@@ -1,8 +1,9 @@
 package handler
 
 import (
-	. "TestApp/internal/model"
+	"TestApp/internal/dtos"
 	. "TestApp/internal/service"
+	"TestApp/internal/utils"
 	"encoding/json"
 	"net/http"
 	"strconv"
@@ -21,7 +22,7 @@ type userHandler struct {
 }
 
 func (uHandler *userHandler) Create(w http.ResponseWriter, r *http.Request) {
-	var user User
+	var user dtos.UserDto
 	error1 := json.NewDecoder(r.Body).Decode(&user)
 	//defer r.Body.Close()
 	if error1 != nil {
@@ -29,10 +30,8 @@ func (uHandler *userHandler) Create(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 	//TODO: TC algoritması kullanılarak gerçekten TC mi kontrolü yapılabilir
-	//checkTcNo(user.TcNo)
-	//checkUserName(user.UserName)
-	//utils.RegisterUserValidator()
-	resUser, error2 := uHandler.service.Create(r.Context(), &user)
+	utils.RequestValidator(user)
+	resUser, error2 := uHandler.service.Create(r.Context(), user)
 	if error2 != nil {
 		http.Error(w, error2.Error(), http.StatusInternalServerError)
 		return
@@ -41,7 +40,6 @@ func (uHandler *userHandler) Create(w http.ResponseWriter, r *http.Request) {
 	err := JSON(w, http.StatusCreated, resUser)
 	if err != nil {
 		return
-
 	}
 
 }

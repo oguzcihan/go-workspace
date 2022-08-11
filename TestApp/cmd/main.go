@@ -16,8 +16,6 @@ func main() {
 	//	//password eklenecek validation kontrol
 	//	//update delete olacak in progress
 
-	//TestUserValidator()
-	//fmt.Println("Test:" + os.Getenv("PgConnection"))
 }
 
 //type User struct {
