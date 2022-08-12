@@ -6,8 +6,9 @@ import (
 	"TestApp/internal/utils"
 	"encoding/json"
 	"net/http"
-	"strconv"
 )
+
+// TODO: TC algoritması kullanılarak gerçekten TC mi kontrolü yapılabilir
 
 type UserHandler interface {
 	Create(w http.ResponseWriter, r *http.Request)
@@ -23,34 +24,34 @@ type userHandler struct {
 
 func (uHandler *userHandler) Create(w http.ResponseWriter, r *http.Request) {
 	var user dtos.UserDto
-	error1 := json.NewDecoder(r.Body).Decode(&user)
-	//defer r.Body.Close()
-	if error1 != nil {
-		http.Error(w, error1.Error(), http.StatusBadRequest)
+	//
+	//error1 := json.NewDecoder(r.Body).Decode(&user)
+	//if error1 != nil {
+	//	http.Error(w, error1.Error(), http.StatusBadRequest)
+	//	return
+	//}
+	requestErr := utils.RequestValidate(user)
+	if requestErr != nil {
+		err := JSON(w, http.StatusBadRequest, requestErr)
+		if err != nil {
+			return
+		}
 		return
 	}
-	//TODO: TC algoritması kullanılarak gerçekten TC mi kontrolü yapılabilir
-	utils.RequestValidator(user)
-	resUser, error2 := uHandler.service.Create(r.Context(), user)
-	if error2 != nil {
-		http.Error(w, error2.Error(), http.StatusInternalServerError)
+	resUser, errs := uHandler.service.Create(r.Context(), user)
+	if errs != nil {
+		err := JSON(w, http.StatusInternalServerError, resUser)
+		if err != nil {
+			return
+		}
 		return
-	}
-
-	err := JSON(w, http.StatusCreated, resUser)
-	if err != nil {
-		return
-	}
-
-}
-
-func checkTcNo(tcNo int64) bool {
-	lengthTcNo := len(strconv.Itoa(int(tcNo)))
-	if lengthTcNo < 11 || lengthTcNo > 11 || lengthTcNo == 0 {
-		return false
 	} else {
-		return true
+		err := JSON(w, http.StatusCreated, resUser)
+		if err != nil {
+			return
+		}
 	}
+
 }
 
 func JSON(w http.ResponseWriter, code int, res interface{}) error {

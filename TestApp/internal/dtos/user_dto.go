@@ -6,5 +6,5 @@ type UserDto struct {
 	Firstname string `json:"firstName"`
 	Lastname  string `json:"lastName"`
 	Email     string `json:"email" validate:"required,email"`
-	Password  string `json:"password"`
+	Password  string `json:"password" validate:"passwd"`
 }

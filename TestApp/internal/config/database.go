@@ -6,21 +6,18 @@ import (
 	"os"
 )
 
-var database *gorm.DB
-
-func ConnectDatabase() {
+func ConnectDatabase() *gorm.DB {
 	pgConnection := os.Getenv("PgConnection")
 	DB, err := gorm.Open(pq.Open(pgConnection), &gorm.Config{})
 	if err != nil {
 		panic(err)
 	}
-	database = DB
+	//database = DB
+	return DB
 }
 
 func DatabaseConnection(x interface{}) *gorm.DB {
-	//database classında çalışmalı
-	//migrate ayrı olmalı
-	ConnectDatabase() //return database olarak dönmeli
+	database := ConnectDatabase()
 	err := database.AutoMigrate(x)
 	if err != nil {
 		return nil

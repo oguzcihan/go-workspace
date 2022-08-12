@@ -1,10 +1,10 @@
 package utils
 
 import (
-	"fmt"
 	"github.com/go-playground/locales/tr"
-	. "github.com/go-playground/universal-translator"
+	ut "github.com/go-playground/universal-translator"
 	"github.com/go-playground/validator/v10"
+	trTrans "github.com/go-playground/validator/v10/translations/tr"
 	"log"
 )
 
@@ -13,34 +13,34 @@ const (
 	langEn = "en"
 )
 
-func RequestValidator(request interface{}) []string {
+var validate *validator.Validate
 
-	getTrans := ToErrorResponse()
-	validate := validator.New()
-
-	_ = validate.RegisterTranslation("required", getTrans, func(ut Translator) error {
-		return ut.Add("required", "{0} zorunlu alan", true) // see universal-translator for details
-	}, func(ut Translator, fieldError validator.FieldError) string {
-		retVal, _ := ut.T("required", fieldError.Field())
-		return retVal
-	})
-	var err2 []string
-	err := validate.Struct(request)
-	for _, e := range err.(validator.ValidationErrors) {
-		fieldError := e.Translate(getTrans)
-		fmt.Println(e.Translate(getTrans))
-		err2 = append(err2, fieldError)
-		return err2
-	}
-	return nil
-}
-
-func ToErrorResponse() Translator {
-	translator := tr.New()
-	universal := New(translator, translator)
+func LoadValidator() ut.Translator {
+	translatorTr := tr.New()
+	universal := ut.New(translatorTr, translatorTr)
 	getTrans, found := universal.GetTranslator(langTr)
 	if !found {
 		log.Fatal("Translator bulunamadı")
 	}
+	validate = validator.New()
+	err := trTrans.RegisterDefaultTranslations(validate, getTrans)
+	if err != nil {
+		return nil
+	}
 	return getTrans
+}
+
+func RequestValidate(model interface{}) []string {
+	getTrans := LoadValidator()
+	var requestArray []string
+	err := validate.Struct(model)
+	if err != nil {
+		errs := err.(validator.ValidationErrors)
+		for _, fe := range errs {
+			fieldError := fe.Translate(getTrans)
+			requestArray = append(requestArray, fieldError)
+		}
+		return requestArray
+	}
+	return nil
 }
