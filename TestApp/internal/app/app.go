@@ -16,7 +16,7 @@ type ApplicationContext struct {
 }
 
 func NewApplication(context Context) (*ApplicationContext, error) {
-	//birden fazla model olduğu durumu için generic yapmaj gerekiyor
+	//birden fazla model olduğu durumu için generic yapmak gerekiyor
 	database := config.DatabaseConnection(&User{})
 
 	userRepository := repository.NewUserRepository(database)

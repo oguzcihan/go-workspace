@@ -22,7 +22,7 @@ func RunServer() {
 }
 
 /*
-	context.Backgrounf(): Boş bir contexttir, deadline ı bulunmaz iptal edilemez
+	context.Background(): Boş bir contexttir, deadline ı bulunmaz iptal edilemez
 	üretilen contextler için taban olarak kullanılabilir
 	context.TODO(): Ne kullanılacağından emin olmadığında kullanılır
 */
