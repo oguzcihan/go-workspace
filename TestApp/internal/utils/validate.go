@@ -33,6 +33,11 @@ func LoadValidator() ut.Translator {
 func RequestValidate(model interface{}) []string {
 	getTrans := LoadValidator()
 	var requestArray []string
+
+	//_ = validate.RegisterValidation("passwd", func(fl validator.FieldLevel) bool {
+	//	return len(fl.Field().String()) > 6
+	//})
+
 	err := validate.Struct(model)
 	if err != nil {
 		errs := err.(validator.ValidationErrors)

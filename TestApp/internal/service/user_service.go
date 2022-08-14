@@ -21,7 +21,7 @@ type UserService struct {
 
 func (service UserService) Create(context Context, userDto dtos.UserDto) (*User, error) {
 	//TODO:id li user kayıt edildi bildirimi verilebilir
-	userData := User{
+	createData := User{
 		TcNo:      userDto.TcNo,
 		UserName:  userDto.UserName,
 		Firstname: userDto.Firstname,
@@ -29,5 +29,24 @@ func (service UserService) Create(context Context, userDto dtos.UserDto) (*User,
 		Email:     userDto.Email,
 		Password:  userDto.Password,
 	}
-	return service.repository.Create(context, &userData)
+	return service.repository.Create(context, &createData)
+}
+
+func (service UserService) GetUsername(ctx Context, userName string) (*User, error) {
+	//Send to incoming username repository layer
+	resUsername, err := service.repository.GetUsername(ctx, userName)
+	return resUsername, err
+}
+
+func (service UserService) Update(ctx Context, userDto dtos.UserDto) (*User, error) {
+	updateData := User{
+		ID:        userDto.ID,
+		TcNo:      userDto.TcNo,
+		UserName:  userDto.UserName,
+		Firstname: userDto.Firstname,
+		Lastname:  userDto.Lastname,
+		Email:     userDto.Email,
+		Password:  userDto.Password,
+	}
+	return service.repository.Update(ctx, &updateData)
 }
