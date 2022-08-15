@@ -7,17 +7,14 @@ import (
 	"encoding/json"
 	"github.com/gorilla/mux"
 	"net/http"
-	"os"
 	"strconv"
 )
 
 // TODO: TC algoritması kullanılarak gerçekten TC mi kontrolü yapılabilir
 const (
-	alreadyUsername = "Kullanıcı adı daha önce alınmış!"
-	emptyBody       = "Boş değer gönderilemez"
-	checkIdString   = "Id boş olamaz!"
-	jsonKey         = "Content-Type"
-	jsonValue       = "application/json"
+	emptyBody = "empty_body"
+	jsonKey   = "Content-Type"
+	jsonValue = "application/json"
 )
 
 type UserHandler interface {
@@ -34,6 +31,7 @@ type userHandler struct {
 }
 
 func (uHandler *userHandler) Create(w http.ResponseWriter, r *http.Request) {
+
 	var user dtos.UserDto
 	bodyError := json.NewDecoder(r.Body).Decode(&user)
 	//defer r.Body.Close()
@@ -42,56 +40,25 @@ func (uHandler *userHandler) Create(w http.ResponseWriter, r *http.Request) {
 		http.Error(w, emptyBody, http.StatusBadRequest)
 		return
 	}
+
 	requestErr := utils.RequestValidate(user)
 	if requestErr != nil {
 		//will work if validate
-		err := JSON(w, http.StatusBadRequest, requestErr)
-		if err != nil {
-			return
-		}
+		_ = JSON(w, http.StatusBadRequest, requestErr)
 		return
 	}
-	//username unique check
-	resUsername, checkUser := uHandler.CheckUserName(r, user.UserName)
-	if resUsername != nil && checkUser {
-		err := JSON(w, http.StatusBadRequest, resUsername)
-		if err != nil {
-			return
-		}
-	} else {
-		//if true,registration start
-		resCreateUser, errs := uHandler.service.Create(r.Context(), user)
-		if errs != nil {
-			//if an error occurs while recording
-			err := JSON(w, http.StatusInternalServerError, resCreateUser)
-			if err != nil {
-				return
-			}
-			return
-		}
-		//Registration successful code send
-		err := JSON(w, http.StatusCreated, resCreateUser)
-		if err != nil {
-			return
-		}
+
+	//if true,registration start
+	resCreateUser, errs := uHandler.service.Create(r.Context(), user)
+	if errs != nil {
+		//if an error occurs while recording
+		_ = JSON(w, http.StatusInternalServerError, resCreateUser)
+		return
 	}
 
-}
+	//Registration successful code send
+	_ = JSON(w, http.StatusCreated, resCreateUser)
 
-func (uHandler *userHandler) CheckUserName(r *http.Request, userName string) ([]string, bool) {
-	//send to service layer for username
-	var errorString []string
-	resUsername, err := uHandler.service.GetUsername(r.Context(), userName)
-	if err != nil {
-		//Exit
-		os.Exit(1)
-		return nil, false
-	} else if resUsername.UserName == userName {
-		//Throw an error if the response from the DB and the response from the request are equal
-		errorString = append(errorString, alreadyUsername)
-		return errorString, true
-	}
-	return errorString, false
 }
 
 func (uHandler *userHandler) Update(w http.ResponseWriter, r *http.Request) {
@@ -101,11 +68,13 @@ func (uHandler *userHandler) Update(w http.ResponseWriter, r *http.Request) {
 		http.Error(w, emptyBody, http.StatusBadRequest)
 		return
 	}
+
 	requestId := mux.Vars(r)["id"]
 	if len(requestId) == 0 {
-		http.Error(w, checkIdString, http.StatusBadRequest)
+		http.Error(w, "checkIdString", http.StatusBadRequest)
 		return
 	}
+	//json içinden gelmemeli
 	idString := strconv.Itoa(user.ID)
 	if idString == "0" {
 		idString = requestId
@@ -113,6 +82,7 @@ func (uHandler *userHandler) Update(w http.ResponseWriter, r *http.Request) {
 		http.Error(w, "Id not match", http.StatusBadRequest)
 		return
 	}
+
 	resUpdateUser, err := uHandler.service.Update(r.Context(), user)
 	if err != nil {
 		errJson := JSON(w, http.StatusBadRequest, resUpdateUser)

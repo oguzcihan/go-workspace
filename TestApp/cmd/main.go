@@ -1,8 +1,6 @@
 package main
 
-import (
-	"TestApp/internal/app"
-)
+import "TestApp/internal/app"
 
 func main() {
 
@@ -10,4 +8,10 @@ func main() {
 	//TODO:
 	//	//deleted sa tekrar oluşabilir username ile kontrol
 	//	//update delete olacak
+
+	//err := errors.New("use of err.String() detected!")
+	//s := err.Error()
+	//fmt.Printf(
+	//	"version: %s\ntypes: %T / %T\nstring value via err.Error(): %q\n",
+	//	runtime.Version(), err, s, s)
 }

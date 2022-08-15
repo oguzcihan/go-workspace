@@ -30,12 +30,12 @@ func (u UserRepository) Create(context Context, user *User) (*User, error) {
 	return user, nil
 }
 
-func (u UserRepository) GetUsername(ctx Context, userName string) (*User, error) {
+func (u UserRepository) GetUsername(userName string) (*User, error) {
 	var user User
 	//The current username is queried from the user table
-	nameData := u.DB.Where("user_name=?", userName).First(&user)
-	if nameData == nil {
-		return nil, nameData.Error
+	err := u.DB.Where("user_name=?", userName).First(&user).Error
+	if err != nil {
+		return nil, err
 	}
 	return &user, nil
 }

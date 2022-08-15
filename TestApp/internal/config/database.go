@@ -7,6 +7,7 @@ import (
 )
 
 func ConnectDatabase() *gorm.DB {
+	//her yerde kullanmak için ayrı alınmalı
 	pgConnection := os.Getenv("PgConnection")
 	DB, err := gorm.Open(pq.Open(pgConnection), &gorm.Config{})
 	if err != nil {
