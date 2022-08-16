@@ -10,7 +10,6 @@ import (
 	"strconv"
 )
 
-// TODO: TC algoritması kullanılarak gerçekten TC mi kontrolü yapılabilir
 const (
 	emptyBody = "empty_body"
 	jsonKey   = "Content-Type"
@@ -30,14 +29,17 @@ type userHandler struct {
 	service UserService
 }
 
+var (
+	user dtos.UserDto
+)
+
 func (uHandler *userHandler) Create(w http.ResponseWriter, r *http.Request) {
 
-	var user dtos.UserDto
 	bodyError := json.NewDecoder(r.Body).Decode(&user)
 	//defer r.Body.Close()
 	if bodyError != nil {
 		//is body empty?
-		http.Error(w, emptyBody, http.StatusBadRequest)
+		_ = JSON(w, http.StatusBadRequest, bodyError)
 		return
 	}
 
@@ -52,7 +54,7 @@ func (uHandler *userHandler) Create(w http.ResponseWriter, r *http.Request) {
 	resCreateUser, errs := uHandler.service.Create(r.Context(), user)
 	if errs != nil {
 		//if an error occurs while recording
-		_ = JSON(w, http.StatusInternalServerError, resCreateUser)
+		_ = JSON(w, errs.Status, errs)
 		return
 	}
 
@@ -62,7 +64,7 @@ func (uHandler *userHandler) Create(w http.ResponseWriter, r *http.Request) {
 }
 
 func (uHandler *userHandler) Update(w http.ResponseWriter, r *http.Request) {
-	var user dtos.UserDto
+
 	bodyError := json.NewDecoder(r.Body).Decode(&user)
 	if bodyError != nil {
 		http.Error(w, emptyBody, http.StatusBadRequest)
