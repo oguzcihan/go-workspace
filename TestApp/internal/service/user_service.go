@@ -6,6 +6,7 @@ import (
 	. "TestApp/internal/repository"
 	. "TestApp/internal/utils"
 	. "context"
+	"time"
 )
 
 //	type UserService interface {
@@ -26,7 +27,6 @@ type UserService struct {
 func (service UserService) Create(context Context, userDto dtos.UserDto) (*User, *CustomError) {
 	//TODO:id li user kayıt edildi bildirimi verilebilir
 	//username unique check
-	//service katmanında func ile birbirini çağırmalı
 	//iş akışı gerektiren şeyler service de olmalı
 	createData := User{
 		TcNo:      userDto.TcNo,
@@ -35,6 +35,8 @@ func (service UserService) Create(context Context, userDto dtos.UserDto) (*User,
 		Lastname:  userDto.Lastname,
 		Email:     userDto.Email,
 		Password:  userDto.Password,
+		CreatedAt: time.Now(),
+		UpdatedAt: time.Time{},
 	}
 	err := service.CheckUserName(userDto.UserName)
 	if err != nil {
@@ -63,6 +65,7 @@ func (service UserService) Update(ctx Context, userDto dtos.UserDto) (*User, err
 		Lastname:  userDto.Lastname,
 		Email:     userDto.Email,
 		Password:  userDto.Password,
+		UpdatedAt: time.Now(),
 	}
 	return service.repository.Update(ctx, &updateData)
 }
