@@ -5,31 +5,14 @@ type CustomError struct {
 	Status  int    `json:"status"`
 }
 
-//func NewCustomError(cError CustomError) *ErrorService {
-//	return &ErrorService{err: cError}
-//}
-//
-//type ErrorService struct {
-//	err CustomError
-//}
-
-func BadRequest(_message string) *CustomError {
-	return &CustomError{
-		Message: _message,
-		Status:  400,
-	}
+func (c CustomError) Error() string {
+	//TODO implement me
+	panic("implement me")
 }
 
-func NotFound(_message string) *CustomError {
-	return &CustomError{
+func NewError(_message string, code int) error {
+	return CustomError{
 		Message: _message,
-		Status:  404,
-	}
-}
-
-func InternalError(_message string) *CustomError {
-	return &CustomError{
-		Message: _message,
-		Status:  500,
+		Status:  code,
 	}
 }

@@ -14,8 +14,8 @@ type User struct {
 	Email     string `json:"email"`
 	Password  string `json:"password"`
 	//IsActive  bool           `json:"isActive"`
-	CreatedAt time.Time      `json:"createdAt"`
-	UpdatedAt time.Time      `json:"updatedAt"`
+	CreatedAt time.Time      `json:"createdAt" gorm:"autoCreateTime:false" gorm:"<-:create"`
+	UpdatedAt time.Time      `json:"updatedAt" gorm:"autoUpdateTime:false"`
 	DeletedAt gorm.DeletedAt `json:"deletedAt"`
 }
 

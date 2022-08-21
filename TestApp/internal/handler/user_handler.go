@@ -7,7 +7,6 @@ import (
 	"encoding/json"
 	"github.com/gorilla/mux"
 	"net/http"
-	"strconv"
 )
 
 const (
@@ -36,7 +35,7 @@ var (
 func (uHandler *userHandler) Create(w http.ResponseWriter, r *http.Request) {
 
 	bodyError := json.NewDecoder(r.Body).Decode(&user)
-	//defer r.Body.Close()
+	defer r.Body.Close()
 	if bodyError != nil {
 		//is body empty?
 		_ = JSON(w, http.StatusBadRequest, bodyError)
@@ -54,7 +53,7 @@ func (uHandler *userHandler) Create(w http.ResponseWriter, r *http.Request) {
 	resCreateUser, errs := uHandler.service.Create(r.Context(), user)
 	if errs != nil {
 		//if an error occurs while recording
-		_ = JSON(w, errs.Status, errs)
+		_ = JSON(w, 404, errs)
 		return
 	}
 
@@ -73,19 +72,11 @@ func (uHandler *userHandler) Update(w http.ResponseWriter, r *http.Request) {
 
 	requestId := mux.Vars(r)["id"]
 	if len(requestId) == 0 {
-		http.Error(w, "checkIdString", http.StatusBadRequest)
-		return
-	}
-	//json içinden gelmemeli
-	idString := strconv.Itoa(user.ID)
-	if idString == "0" {
-		idString = requestId
-	} else if requestId != idString {
-		http.Error(w, "Id not match", http.StatusBadRequest)
+		http.Error(w, "Id", http.StatusBadRequest)
 		return
 	}
 
-	resUpdateUser, err := uHandler.service.Update(r.Context(), user)
+	resUpdateUser, err := uHandler.service.Update(r.Context(), user, requestId)
 	if err != nil {
 		errJson := JSON(w, http.StatusBadRequest, resUpdateUser)
 		if errJson != nil {
@@ -102,7 +93,7 @@ func (uHandler *userHandler) Update(w http.ResponseWriter, r *http.Request) {
 
 func JSON(w http.ResponseWriter, code int, res interface{}) error {
 	w.Header().Set(jsonKey, jsonValue)
-	w.WriteHeader(code)
+	//w.WriteHeader()
 	return json.NewEncoder(w).Encode(res)
 }
 
