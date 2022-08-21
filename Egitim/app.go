@@ -1,81 +1,79 @@
 package main
 
-import (
-	"fmt"
-	"strconv"
-)
+import "Egitim/Restfull"
 
 func main() {
-	//TODO kullanıcı veri oluşturulacak
-	fmt.Println("Kullanıcı oluşturma v1")
-	user1 := &User{
-		ID:        1,
-		Firstname: "Oğuz",
-		Lastname:  "Cihan",
-		Username:  "ocihan",
-		Age:       24,
-		Pay: &Payment{
-			Salary: 3555,
-			Bonus:  850.50,
-		},
-	}
-	//fmt.Println(user1)
-	fmt.Println(user1.GetFullName())
-	fmt.Println(user1.GetPayment())
-	fmt.Println("Maaş" + strconv.FormatFloat(user1.GetPayment(), 'g', -1, 64))
+	//Conditionals.Demo()
+	//Loops.Demo()
+	//Loops.Workshop()
+	//Loops.Workshop2()
+	//Loops.Workshop3()
+	//Arrays.Demo()
+	//Arrays.Demo2()
+	//Arrays.Demo3()
+	//Slices.Demo()
+	//Slices.Demo2()
 
-	fmt.Println("Kullanıcı oluşturma v2")
-	user2 := NewUser()
-	user2.Firstname = "Oğuz"
-	user2.Lastname = "Cihan"
-	user2.Pay = &Payment{Salary: 100, Bonus: 5}
-	fmt.Println(user2.GetFullName())
-	fmt.Println(user2.GetPayment())
-	fmt.Println(user2.GetUserName())
+	//Maps.Demo()
+	//Range.Demo()
+	//Range.WorkShop()
+	//Range.Demo2()
 
-}
+	//sayi := 20
+	//Pointers.Demo(&sayi) //* adres & değeri
+	//fmt.Println("Maindeki sayi", sayi)
+	//
+	////arrayler bellekteki adresle giderler
+	//sayilar := []int{1, 2, 4}
+	//Pointers.Demo2(sayilar)
+	//fmt.Println("Maindeki sayi demo2", sayilar[0])
+	//fmt.Println("Maindeki sayi demo2", sayilar[1])
+	//fmt.Println("Maindeki sayi demo2", sayilar)
 
-//Kullanıcı yapısı
-type User struct {
-	ID        int
-	Firstname string
-	Lastname  string
-	Username  string
-	Age       int
-	Pay       *Payment
-}
+	//Struct eğitimi
+	//Structs.Demo()
+	//Structs.Demo2()
 
-//User Constructor
-func NewUser() *User {
-	u := new(User) //nesne üretildi
-	u.Pay = NewPayment()
-	return u
-}
+	//Go routines eğitimi
+	//İşlemin benzer zamanlarda yapılmasını istersek başına go yazarız
+	//go GoRoutines.CiftSayilar()
+	//go GoRoutines.TekSayilar()
+	//time.Sleep(2 * time.Second)
+	//fmt.Println("Bitti")
 
-//Ödeme yapısı
-type Payment struct {
-	Salary float64
-	Bonus  float64
-}
+	//Channels eğitimi
+	//cift/tek sayılar için değişken tanımlandı
+	//ciftSayiToplamCn := make(chan int)
+	//tekSayiToplamCn := make(chan int)
+	//go Channels.CiftSayilar(ciftSayiToplamCn)
+	//go Channels.TekSayilar(tekSayiToplamCn)
 
-//Payment Constructor
-func NewPayment() *Payment {
-	p := new(Payment)
-	return p
-}
+	//channel içindeki değerler değişkene aktarıldı
+	//asenktron ortam olmalıydı
+	//channel go routine yaşam döngüsünü kontrol etmeyi sağlıyor
+	//ciftSayiToplam, tekSayiToplam := <-ciftSayiToplamCn, <-tekSayiToplamCn
+	//carpim := ciftSayiToplam * tekSayiToplam
+	//fmt.Println("Çarpım:", carpim)
 
-//Methods
-func (u User) GetFullName() string {
-	//Ad soyad birleşitirip geriye döner
-	return u.Firstname + " " + u.Lastname
-}
+	//Go interface ve polimorfizm kullanımı
+	//Interfaces.Demo()
+	//Interfaces.Demo2()
 
-func (u *User) GetUserName() string {
-	return u.Username
-}
+	//defer özellikleri incelendi
+	//DeferStatement.B()
+	//DeferStatement.Test()
+	//DeferStatement.Demo3()
 
-func (u *User) GetPayment() float64 {
-	pay := u.Pay.Salary + u.Pay.Bonus
-	return pay
+	//ErrorHandling.Demo()
+	//Interfaces.Demo3() //type assertion teemelleri
+	//ErrorHandling.Demo1()
+	//ErrorHandling.Demo3(101)
 
+	//string eğitim
+	//StringFunctions.Demo()
+	//StringFunctions.Demo2()
+
+	//Restfull eğitimi
+	Restfull.Demo()
+	Restfull.Demo2()
 }
