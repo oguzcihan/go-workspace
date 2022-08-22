@@ -42,7 +42,7 @@ func (u UserRepository) Update(ctx Context, user *User) (*User, error) {
 func (u UserRepository) GetUsername(userName string) (*User, error) {
 	//The current username is queried from the user table
 	var user User
-	errUser := u.DB.Where("user_name=?", userName).First(&user)
+	errUser := u.DB.Where("user_name=?", userName).FirstOrInit(&user)
 	if errUser == nil {
 		return nil, errUser.Error
 	}

@@ -40,7 +40,7 @@ func (service UserService) Create(context Context, userDto dtos.UserDto) (*User,
 		CreatedAt: time.Now(),
 		IsActive:  true,
 	}
-	err := service.CheckUserName(userDto.UserName)
+	err := service.CheckUserName(userDto.UserName, "")
 	if err != nil {
 		return nil, ErrorUserAlreadyExists
 	}
@@ -49,36 +49,40 @@ func (service UserService) Create(context Context, userDto dtos.UserDto) (*User,
 }
 
 func (service UserService) Update(ctx Context, userDto dtos.UserDto, userId int) (*User, error) {
-	//user var mı getusername
 
-	//userName := service.CheckUserName(userDto.UserName)
-	//Id := service.GetUserById(userId)
+	getUser, _ := service.GetUserById(userId)
+	if getUser.ID == userId {
+		//nil değilse username db mevcut
+		err := service.CheckUserName(userDto.UserName, getUser.UserName)
+		if err == nil {
+			updateData := User{
+				ID:        userId,
+				TcNo:      userDto.TcNo,
+				UserName:  userDto.UserName,
+				Firstname: userDto.Firstname,
+				Lastname:  userDto.Lastname,
+				Email:     userDto.Email,
+				Password:  userDto.Password,
+				UpdatedAt: time.Now(),
+				IsActive:  userDto.IsActive,
+			}
+			return service.repository.Update(ctx, &updateData)
+		}
 
-	updateData := User{
-		ID:        userId,
-		TcNo:      userDto.TcNo,
-		UserName:  userDto.UserName,
-		Firstname: userDto.Firstname,
-		Lastname:  userDto.Lastname,
-		Email:     userDto.Email,
-		Password:  userDto.Password,
-		UpdatedAt: time.Now(),
-		IsActive:  userDto.IsActive,
 	}
-
-	return service.repository.Update(ctx, &updateData)
-
+	return nil, ErrorUserAlreadyExists
 	//user := service.repository.
 
 }
 
-func (service UserService) CheckUserName(userName string) error {
-	//resUsername, err := service.GetUsername(userName)
-	resUsername, err := service.repository.GetUsername(userName)
-	//send to service layer for username
-	if err != nil {
+func (service UserService) CheckUserName(newUserName string, oldUserName string) error {
+	if newUserName == oldUserName {
 		return nil
-	} else if resUsername.UserName == userName {
+	}
+
+	resUsername, _ := service.repository.GetUsername(newUserName)
+	//send to service layer for username
+	if resUsername.UserName != "" {
 		//Throw an error if the response from the DB and the response from the request are equal
 		return ErrorUserAlreadyExists
 	}
