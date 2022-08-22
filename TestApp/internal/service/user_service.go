@@ -6,7 +6,6 @@ import (
 	. "TestApp/internal/repository"
 	. "TestApp/internal/utils"
 	. "context"
-	"strconv"
 	"time"
 )
 
@@ -17,6 +16,7 @@ import (
 
 var (
 	ErrorUserAlreadyExists = NewError("user_already_exists", 404)
+	ErrorUserNotFound      = NewError("user_not_found", 404)
 )
 
 func NewUserService(_repository UserRepository) *UserService {
@@ -38,6 +38,7 @@ func (service UserService) Create(context Context, userDto dtos.UserDto) (*User,
 		Email:     userDto.Email,
 		Password:  userDto.Password,
 		CreatedAt: time.Now(),
+		IsActive:  true,
 	}
 	err := service.CheckUserName(userDto.UserName)
 	if err != nil {
@@ -47,38 +48,33 @@ func (service UserService) Create(context Context, userDto dtos.UserDto) (*User,
 	return userCreate, nil
 }
 
-func (service UserService) GetUsername(userName string) (*User, error) {
-	//Send to incoming username repository layer
-	resUsername, err := service.repository.GetUsername(userName)
-	if err != nil {
-		return nil, err
-	}
-	return resUsername, nil
-}
-
-func (service UserService) Update(ctx Context, userDto dtos.UserDto, userId string) (*User, error) {
+func (service UserService) Update(ctx Context, userDto dtos.UserDto, userId int) (*User, error) {
 	//user var mı getusername
-	userName := service.CheckUserName(userDto.UserName)
-	if userName != nil {
-		id, _ := strconv.Atoi(userId)
-		updateData := User{
-			ID:        id,
-			TcNo:      userDto.TcNo,
-			UserName:  userDto.UserName,
-			Firstname: userDto.Firstname,
-			Lastname:  userDto.Lastname,
-			Email:     userDto.Email,
-			Password:  userDto.Password,
-			UpdatedAt: time.Now(),
-		}
-		return service.repository.Update(ctx, &updateData)
+
+	//userName := service.CheckUserName(userDto.UserName)
+	//Id := service.GetUserById(userId)
+
+	updateData := User{
+		ID:        userId,
+		TcNo:      userDto.TcNo,
+		UserName:  userDto.UserName,
+		Firstname: userDto.Firstname,
+		Lastname:  userDto.Lastname,
+		Email:     userDto.Email,
+		Password:  userDto.Password,
+		UpdatedAt: time.Now(),
+		IsActive:  userDto.IsActive,
 	}
-	return nil, nil
+
+	return service.repository.Update(ctx, &updateData)
+
+	//user := service.repository.
 
 }
 
-func (service *UserService) CheckUserName(userName string) error {
-	resUsername, err := service.GetUsername(userName)
+func (service UserService) CheckUserName(userName string) error {
+	//resUsername, err := service.GetUsername(userName)
+	resUsername, err := service.repository.GetUsername(userName)
 	//send to service layer for username
 	if err != nil {
 		return nil
@@ -87,4 +83,12 @@ func (service *UserService) CheckUserName(userName string) error {
 		return ErrorUserAlreadyExists
 	}
 	return nil
+}
+
+func (service UserService) GetUserById(userId int) (*User, error) {
+	resUserId, err := service.repository.GetUserId(userId)
+	if err != nil {
+		return nil, err
+	}
+	return resUserId, nil
 }

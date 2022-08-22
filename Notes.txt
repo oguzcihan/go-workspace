@@ -175,3 +175,13 @@ func translateAll() {
 		fmt.Println(errs.Translate(getTrans))
 	}
 }
+
+
+//func (service UserService) GetUsername(userName string) (*User, error) {
+//	//Send to incoming username repository layer
+//	resUsername, err := service.repository.GetUsername(userName)
+//	if err != nil {
+//		return nil, err
+//	}
+//	return resUsername, nil
+//}

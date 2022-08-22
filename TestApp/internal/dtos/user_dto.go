@@ -8,10 +8,7 @@ type UserDto struct {
 	Lastname  string `json:"lastName"`
 	Email     string `json:"email" validate:"required,email"`
 	Password  string `json:"password" validate:"required,gt=4,lt=9"`
-}
-
-type NameDto struct {
-	UserName string `json:"userName"`
+	IsActive  bool   `json:"isActive"`
 }
 
 /*

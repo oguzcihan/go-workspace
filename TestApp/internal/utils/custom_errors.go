@@ -3,11 +3,11 @@ package utils
 type CustomError struct {
 	Message string `json:"message"`
 	Status  int    `json:"status"`
+	Err     error  `json:"-"`
 }
 
 func (c CustomError) Error() string {
-	//TODO implement me
-	panic("implement me")
+	return c.Err.Error()
 }
 
 func NewError(_message string, code int) error {

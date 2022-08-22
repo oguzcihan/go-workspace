@@ -5,8 +5,10 @@ import (
 	. "TestApp/internal/service"
 	"TestApp/internal/utils"
 	"encoding/json"
+	"errors"
 	"github.com/gorilla/mux"
 	"net/http"
+	"strconv"
 )
 
 const (
@@ -29,7 +31,8 @@ type userHandler struct {
 }
 
 var (
-	user dtos.UserDto
+	user        dtos.UserDto
+	customError utils.CustomError
 )
 
 func (uHandler *userHandler) Create(w http.ResponseWriter, r *http.Request) {
@@ -51,9 +54,9 @@ func (uHandler *userHandler) Create(w http.ResponseWriter, r *http.Request) {
 
 	//if true,registration start
 	resCreateUser, errs := uHandler.service.Create(r.Context(), user)
-	if errs != nil {
+	if errors.As(errs, &customError) {
 		//if an error occurs while recording
-		_ = JSON(w, 404, errs)
+		_ = JSON(w, customError.Status, errs)
 		return
 	}
 
@@ -76,24 +79,26 @@ func (uHandler *userHandler) Update(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	resUpdateUser, err := uHandler.service.Update(r.Context(), user, requestId)
-	if err != nil {
-		errJson := JSON(w, http.StatusBadRequest, resUpdateUser)
-		if errJson != nil {
-			return
-		}
-	}
-	errJson := JSON(w, http.StatusOK, resUpdateUser)
-	//http.Error(w, "Güncellendi", http.StatusOK)
-	if errJson != nil {
+	requestErr := utils.RequestValidate(user)
+	if requestErr != nil {
+		//will work if validate
+		_ = JSON(w, http.StatusBadRequest, requestErr)
 		return
 	}
+
+	userId, _ := strconv.Atoi(requestId)
+	resUpdateUser, err := uHandler.service.Update(r.Context(), user, userId)
+	if errors.As(err, &customError) {
+		_ = JSON(w, customError.Status, err)
+		return
+	}
+	_ = JSON(w, http.StatusOK, resUpdateUser)
 
 }
 
 func JSON(w http.ResponseWriter, code int, res interface{}) error {
 	w.Header().Set(jsonKey, jsonValue)
-	//w.WriteHeader()
+	w.WriteHeader(code)
 	return json.NewEncoder(w).Encode(res)
 }
 
