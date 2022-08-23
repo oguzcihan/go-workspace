@@ -30,8 +30,9 @@ func (u UserRepository) Create(context Context, user *User) (*User, error) {
 	return user, nil
 }
 
-// Update the user
-func (u UserRepository) Update(ctx Context, user *User) (*User, error) {
+// Save update the user
+func (u UserRepository) Save(ctx Context, user *User) (*User, error) {
+	//update kullanarak hangi kolonların güncellenmek istediği verilmeli
 	saveUser := u.DB.Omit("created_at").Save(&user)
 	if saveUser == nil {
 		return nil, saveUser.Error

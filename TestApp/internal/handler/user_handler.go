@@ -19,7 +19,7 @@ const (
 
 type UserHandler interface {
 	Create(w http.ResponseWriter, r *http.Request)
-	Update(w http.ResponseWriter, r *http.Request)
+	Save(w http.ResponseWriter, r *http.Request)
 }
 
 func NewUserHandler(_service UserService) UserHandler {
@@ -65,7 +65,7 @@ func (uHandler *userHandler) Create(w http.ResponseWriter, r *http.Request) {
 
 }
 
-func (uHandler *userHandler) Update(w http.ResponseWriter, r *http.Request) {
+func (uHandler *userHandler) Save(w http.ResponseWriter, r *http.Request) {
 
 	bodyError := json.NewDecoder(r.Body).Decode(&user)
 	if bodyError != nil {
@@ -82,12 +82,13 @@ func (uHandler *userHandler) Update(w http.ResponseWriter, r *http.Request) {
 	requestErr := utils.RequestValidate(user)
 	if requestErr != nil {
 		//will work if validate
+		//validate yaparken status code ile gösterilecek
 		_ = JSON(w, http.StatusBadRequest, requestErr)
 		return
 	}
 
-	userId, _ := strconv.Atoi(requestId)
-	resUpdateUser, err := uHandler.service.Update(r.Context(), user, userId)
+	userId, _ := strconv.Atoi(requestId) //hata olursa?
+	resUpdateUser, err := uHandler.service.Save(r.Context(), user, userId)
 	if errors.As(err, &customError) {
 		_ = JSON(w, customError.Status, err)
 		return

@@ -16,7 +16,6 @@ import (
 
 var (
 	ErrorUserAlreadyExists = NewError("user_already_exists", 404)
-	ErrorUserNotFound      = NewError("user_not_found", 404)
 )
 
 func NewUserService(_repository UserRepository) *UserService {
@@ -48,11 +47,11 @@ func (service UserService) Create(context Context, userDto dtos.UserDto) (*User,
 	return userCreate, nil
 }
 
-func (service UserService) Update(ctx Context, userDto dtos.UserDto, userId int) (*User, error) {
+func (service UserService) Save(ctx Context, userDto dtos.UserDto, userId int) (*User, error) {
 
 	getUser, _ := service.GetUserById(userId)
 	if getUser.ID == userId {
-		//nil değilse username db mevcut
+		//nil değilse username db'de mevcut
 		err := service.CheckUserName(userDto.UserName, getUser.UserName)
 		if err == nil {
 			updateData := User{
@@ -66,16 +65,15 @@ func (service UserService) Update(ctx Context, userDto dtos.UserDto, userId int)
 				UpdatedAt: time.Now(),
 				IsActive:  userDto.IsActive,
 			}
-			return service.repository.Update(ctx, &updateData)
+			return service.repository.Save(ctx, &updateData)
 		}
 
 	}
 	return nil, ErrorUserAlreadyExists
-	//user := service.repository.
-
 }
 
 func (service UserService) CheckUserName(newUserName string, oldUserName string) error {
+
 	if newUserName == oldUserName {
 		return nil
 	}
@@ -90,9 +88,9 @@ func (service UserService) CheckUserName(newUserName string, oldUserName string)
 }
 
 func (service UserService) GetUserById(userId int) (*User, error) {
-	resUserId, err := service.repository.GetUserId(userId)
+	resGetUserById, err := service.repository.GetUserId(userId)
 	if err != nil {
 		return nil, err
 	}
-	return resUserId, nil
+	return resGetUserById, nil
 }
