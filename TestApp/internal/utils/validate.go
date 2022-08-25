@@ -13,7 +13,11 @@ const (
 	langEn = "en"
 )
 
-var validate *validator.Validate
+var (
+	validate *validator.Validate
+	//fieldError    string
+	//ValidateError = NewError(fieldError, 404)
+)
 
 func LoadValidator() ut.Translator {
 	translatorTr := tr.New()
@@ -30,22 +34,22 @@ func LoadValidator() ut.Translator {
 	return getTrans
 }
 
-func RequestValidate(model interface{}) []string {
-	getTrans := LoadValidator()
-	var requestArray []string
+func RequestValidate(model interface{}) error {
 
+	getTrans := LoadValidator()
+	var fieldError string
+	//var requestArray []string
 	//_ = validate.RegisterValidation("passwd", func(fl validator.FieldLevel) bool {
 	//	return len(fl.Field().String()) > 6
 	//})
-
+	//requestArray = append(requestArray, fieldError)
 	err := validate.Struct(model)
 	if err != nil {
 		errs := err.(validator.ValidationErrors)
 		for _, fe := range errs {
-			fieldError := fe.Translate(getTrans)
-			requestArray = append(requestArray, fieldError)
+			fieldError = fe.Translate(getTrans)
 		}
-		return requestArray
+		return NewError(fieldError, 404)
 	}
 	return nil
 }

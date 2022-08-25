@@ -20,6 +20,7 @@ const (
 type UserHandler interface {
 	Create(w http.ResponseWriter, r *http.Request)
 	Save(w http.ResponseWriter, r *http.Request)
+	Delete(w http.ResponseWriter, r *http.Request)
 }
 
 func NewUserHandler(_service UserService) UserHandler {
@@ -33,6 +34,8 @@ type userHandler struct {
 var (
 	user        dtos.UserDto
 	customError utils.CustomError
+
+	EmptyId = utils.NewError("cannot_empty_id", 404)
 )
 
 func (uHandler *userHandler) Create(w http.ResponseWriter, r *http.Request) {
@@ -75,7 +78,7 @@ func (uHandler *userHandler) Save(w http.ResponseWriter, r *http.Request) {
 
 	requestId := mux.Vars(r)["id"]
 	if len(requestId) == 0 {
-		http.Error(w, "Id", http.StatusBadRequest)
+		http.Error(w, "Id boş olamaz", http.StatusBadRequest)
 		return
 	}
 
@@ -87,7 +90,11 @@ func (uHandler *userHandler) Save(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	userId, _ := strconv.Atoi(requestId) //hata olursa?
+	userId, errId := strconv.Atoi(requestId) //hata olursa?
+	if errId != nil {
+		return
+	}
+
 	resUpdateUser, err := uHandler.service.Save(r.Context(), user, userId)
 	if errors.As(err, &customError) {
 		_ = JSON(w, customError.Status, err)
@@ -95,6 +102,29 @@ func (uHandler *userHandler) Save(w http.ResponseWriter, r *http.Request) {
 	}
 	_ = JSON(w, http.StatusOK, resUpdateUser)
 
+}
+
+func (uHandler *userHandler) Delete(w http.ResponseWriter, r *http.Request) {
+
+	requestId := mux.Vars(r)["id"]
+	if len(requestId) == 0 {
+		//http.Error(w, "Id boş olamaz", http.StatusBadRequest)
+		_ = JSON(w, http.StatusBadRequest, EmptyId)
+		return
+	}
+
+	userId, convertError := strconv.Atoi(requestId) //hata olursa?
+	if convertError != nil {
+		return
+	}
+
+	resDeleteUser := uHandler.service.Delete(r.Context(), userId)
+	if resDeleteUser != nil {
+		//http.Error(w, resDeleteUser.Error(), http.StatusInternalServerError)
+		_ = JSON(w, http.StatusBadRequest, resDeleteUser)
+		return
+	}
+	_ = JSON(w, http.StatusOK, SuccessUserDelete)
 }
 
 func JSON(w http.ResponseWriter, code int, res interface{}) error {

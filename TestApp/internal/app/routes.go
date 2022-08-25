@@ -12,7 +12,8 @@ func UserRoute(r *mux.Router, context Context) error {
 	}
 	user := "/user"
 	r.HandleFunc(user, application.User.Create).Methods("POST")
-	r.HandleFunc(user+"/{id}", application.User.Update).Methods("PUT")
+	r.HandleFunc(user+"/{id}", application.User.Save).Methods("PUT")
+	r.HandleFunc(user+"/{id}", application.User.Delete).Methods("DELETE")
 
 	return nil
 }

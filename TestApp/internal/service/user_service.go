@@ -16,6 +16,8 @@ import (
 
 var (
 	ErrorUserAlreadyExists = NewError("user_already_exists", 404)
+	ErrorUserNotFound      = NewError("user_not_found", 404)
+	SuccessUserDelete      = NewError("success_user_delete", 200)
 )
 
 func NewUserService(_repository UserRepository) *UserService {
@@ -70,6 +72,20 @@ func (service UserService) Save(ctx Context, userDto dtos.UserDto, userId int) (
 
 	}
 	return nil, ErrorUserAlreadyExists
+}
+
+func (service UserService) Delete(ctx Context, id int) error {
+	getUser, _ := service.GetUserById(id)
+	if getUser.ID != id {
+		return ErrorUserNotFound
+	}
+
+	result := service.repository.Delete(ctx, id)
+	if result == nil {
+		return SuccessUserDelete
+	}
+
+	return nil
 }
 
 func (service UserService) CheckUserName(newUserName string, oldUserName string) error {

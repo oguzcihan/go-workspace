@@ -40,6 +40,17 @@ func (u UserRepository) Save(ctx Context, user *User) (*User, error) {
 	return user, nil
 }
 
+func (u UserRepository) Delete(ctx Context, id int) error {
+	var user User
+	deleteUser := u.DB.Where("id=?", id).Delete(&user)
+	//silinirse deleteUser dolu geliyor
+	if deleteUser != nil {
+		return nil
+	}
+	//error verilecek
+	return deleteUser.Error
+}
+
 func (u UserRepository) GetUsername(userName string) (*User, error) {
 	//The current username is queried from the user table
 	var user User
@@ -52,9 +63,9 @@ func (u UserRepository) GetUsername(userName string) (*User, error) {
 
 func (u UserRepository) GetUserId(userId int) (*User, error) {
 	var user User
-	errUserId := u.DB.Where("id=?", userId).First(&user)
-	if errUserId == nil {
-		return nil, errUserId.Error
+	errUser := u.DB.Where("id=?", userId).First(&user)
+	if errUser == nil {
+		return nil, errUser.Error
 	}
 	return &user, nil
 }
