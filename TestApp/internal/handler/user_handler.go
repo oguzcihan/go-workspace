@@ -21,6 +21,7 @@ type UserHandler interface {
 	Create(w http.ResponseWriter, r *http.Request)
 	Save(w http.ResponseWriter, r *http.Request)
 	Delete(w http.ResponseWriter, r *http.Request)
+	GetAllUser(w http.ResponseWriter, r *http.Request)
 }
 
 func NewUserHandler(_service UserService) UserHandler {
@@ -35,7 +36,7 @@ var (
 	user        dtos.UserDto
 	customError utils.CustomError
 
-	EmptyId = utils.NewError("cannot_empty_id", 404)
+	EmptyId = utils.NewError("cannot_empty_id", 400)
 )
 
 func (uHandler *userHandler) Create(w http.ResponseWriter, r *http.Request) {
@@ -119,12 +120,21 @@ func (uHandler *userHandler) Delete(w http.ResponseWriter, r *http.Request) {
 	}
 
 	resDeleteUser := uHandler.service.Delete(r.Context(), userId)
-	if resDeleteUser != nil {
-		//http.Error(w, resDeleteUser.Error(), http.StatusInternalServerError)
-		_ = JSON(w, http.StatusBadRequest, resDeleteUser)
+	//http.Error(w, resDeleteUser.Error(), http.StatusInternalServerError)
+	if errors.As(resDeleteUser, &customError) {
+		_ = JSON(w, customError.Status, resDeleteUser)
 		return
 	}
-	_ = JSON(w, http.StatusOK, SuccessUserDelete)
+
+}
+
+func (uHandler *userHandler) GetAllUser(w http.ResponseWriter, r *http.Request) {
+	users, err := uHandler.service.GelAllUser(r.Context())
+	if err != nil {
+		http.Error(w, err.Error(), http.StatusBadRequest)
+		return
+	}
+	_ = JSON(w, http.StatusOK, users)
 }
 
 func JSON(w http.ResponseWriter, code int, res interface{}) error {

@@ -15,8 +15,8 @@ import (
 //iş akışı gerektiren şeyler service de olmalı
 
 var (
-	ErrorUserAlreadyExists = NewError("user_already_exists", 404)
-	ErrorUserNotFound      = NewError("user_not_found", 404)
+	ErrorUserAlreadyExists = NewError("user_already_exists", 400)
+	ErrorUserNotFound      = NewError("user_not_found", 400)
 	SuccessUserDelete      = NewError("success_user_delete", 200)
 )
 
@@ -86,6 +86,10 @@ func (service UserService) Delete(ctx Context, id int) error {
 	}
 
 	return nil
+}
+
+func (service UserService) GelAllUser(ctx Context) (*[]User, error) {
+	return service.repository.GetAllUser(ctx)
 }
 
 func (service UserService) CheckUserName(newUserName string, oldUserName string) error {

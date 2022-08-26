@@ -44,11 +44,22 @@ func (u UserRepository) Delete(ctx Context, id int) error {
 	var user User
 	deleteUser := u.DB.Where("id=?", id).Delete(&user)
 	//silinirse deleteUser dolu geliyor
-	if deleteUser != nil {
-		return nil
+	if deleteUser.Error != nil {
+		return deleteUser.Error
 	}
 	//error verilecek
-	return deleteUser.Error
+	return nil
+}
+
+func (u UserRepository) GetAllUser(ctx Context) (*[]User, error) {
+	var users *[]User
+	result := u.DB.Where("is_active=true").Find(&users)
+
+	if result != nil {
+		return users, nil
+	}
+
+	return nil, result.Error
 }
 
 func (u UserRepository) GetUsername(userName string) (*User, error) {
