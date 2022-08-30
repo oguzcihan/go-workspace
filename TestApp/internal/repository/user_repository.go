@@ -33,7 +33,7 @@ func (u UserRepository) Create(context Context, user *User) (*User, error) {
 // Save update the user
 func (u UserRepository) Save(ctx Context, user *User) (*User, error) {
 	//update kullanarak hangi kolonların güncellenmek istediği verilmeli
-	saveUser := u.DB.Omit("created_at").Save(&user)
+	saveUser := u.DB.Omit("created_at").Where("id", user.ID).Save(&user)
 	if saveUser == nil {
 		return nil, saveUser.Error
 	}
@@ -49,6 +49,21 @@ func (u UserRepository) Delete(ctx Context, id int) error {
 	}
 	//error verilecek
 	return nil
+}
+
+func (u UserRepository) Patch(ctx Context, user *User) (int, error) {
+	//var userModel User
+	//result := u.DB.Model(&userModel).Where("id", user.ID).Updates(user)
+	//if result.Error != nil {
+	//	return result.Error
+	//}
+	//return nil
+	var userModel User
+	res := u.DB.Model(&userModel).Where("id = ?", user.ID).Updates(user)
+	if res.Error != nil {
+		return 0, res.Error
+	}
+	return user.ID, nil
 }
 
 func (u UserRepository) GetAllUser(ctx Context) (*[]User, error) {

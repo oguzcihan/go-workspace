@@ -7,6 +7,7 @@ import (
 	"encoding/json"
 	"errors"
 	"github.com/gorilla/mux"
+	"log"
 	"net/http"
 	"strconv"
 )
@@ -22,6 +23,7 @@ type UserHandler interface {
 	Save(w http.ResponseWriter, r *http.Request)
 	Delete(w http.ResponseWriter, r *http.Request)
 	GetAllUser(w http.ResponseWriter, r *http.Request)
+	Patch(w http.ResponseWriter, r *http.Request)
 }
 
 func NewUserHandler(_service UserService) UserHandler {
@@ -93,6 +95,7 @@ func (uHandler *userHandler) Save(w http.ResponseWriter, r *http.Request) {
 
 	userId, errId := strconv.Atoi(requestId) //hata olursa?
 	if errId != nil {
+		log.Fatalln(w.Write([]byte("id_could_not_be_converted_to_integer")))
 		return
 	}
 
@@ -126,6 +129,30 @@ func (uHandler *userHandler) Delete(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
+}
+
+func (uHandler *userHandler) Patch(w http.ResponseWriter, r *http.Request) {
+
+	var resultMap map[string]string
+
+	bodyError := json.NewDecoder(r.Body).Decode(&resultMap)
+	if bodyError != nil {
+		http.Error(w, emptyBody, http.StatusBadRequest)
+		return
+	}
+
+	requestId := mux.Vars(r)["id"]
+	if len(requestId) == 0 {
+		http.Error(w, "Id boş olamaz", http.StatusBadRequest)
+		return
+	}
+	resultMap["id"] = requestId
+
+	resultPatch, err := uHandler.service.Patch(r.Context(), resultMap)
+	if err != nil {
+		return
+	}
+	_ = JSON(w, 200, resultPatch)
 }
 
 func (uHandler *userHandler) GetAllUser(w http.ResponseWriter, r *http.Request) {

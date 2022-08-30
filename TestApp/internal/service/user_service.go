@@ -6,6 +6,8 @@ import (
 	. "TestApp/internal/repository"
 	. "TestApp/internal/utils"
 	. "context"
+	"encoding/json"
+	"strconv"
 	"time"
 )
 
@@ -86,6 +88,20 @@ func (service UserService) Delete(ctx Context, id int) error {
 	}
 
 	return nil
+}
+
+func (service UserService) Patch(ctx Context, user map[string]string) (int, error) {
+	var users User
+	id := user["id"]
+	usersID, err := strconv.Atoi(id)
+	if err != nil {
+		return 0, err
+	}
+	users.ID = usersID
+	encodeJson, _ := json.Marshal(user)
+	json.Unmarshal(encodeJson, &users)
+
+	return service.repository.Patch(ctx, &users)
 }
 
 func (service UserService) GelAllUser(ctx Context) (*[]User, error) {
