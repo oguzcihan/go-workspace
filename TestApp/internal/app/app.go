@@ -24,5 +24,6 @@ func NewApplication(context Context) (*ApplicationContext, error) {
 	userHandler := handler.NewUserHandler(*userService)
 	//exit yapılabilir app boş dönebilir error msg
 
+	//birden fazla model olduğunda applicationcontext nasıl yapılmalı
 	return &ApplicationContext{User: userHandler}, nil
 }

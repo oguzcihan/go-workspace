@@ -6,7 +6,7 @@ import (
 	"os"
 )
 
-func ConnectDatabase() *gorm.DB {
+func connectDatabase() *gorm.DB {
 	//her yerde kullanmak için ayrı alınmalı
 	pgConnection := os.Getenv("PgConnection")
 	DB, err := gorm.Open(pq.Open(pgConnection), &gorm.Config{})
@@ -18,7 +18,7 @@ func ConnectDatabase() *gorm.DB {
 }
 
 func DatabaseConnection(x interface{}) *gorm.DB {
-	database := ConnectDatabase()
+	database := connectDatabase()
 	err := database.AutoMigrate(x)
 	if err != nil {
 		return nil
