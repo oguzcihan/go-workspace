@@ -6,3 +6,7 @@ type Person struct {
 	Lastname  string `json:"lastname"`
 	City      string `json:"city"`
 }
+
+func (e *Person) TableName() string {
+	return "person"
+}

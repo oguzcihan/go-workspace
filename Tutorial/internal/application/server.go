@@ -6,10 +6,12 @@ import (
 )
 
 func RunServer() {
-	r := gin.Default()
-	fmt.Println("Gin routes connected")
-	PersonRoute(r)
-	fmt.Println("Connected")
+	router := gin.Default()
+	router.SetTrustedProxies([]string{" 127.0.0.1"})
 
-	r.Run(":9090")
+	fmt.Println("------gin routes connecting-------")
+	PersonRoute(router)
+	fmt.Println("-----connected-------")
+
+	router.Run(":9090")
 }
