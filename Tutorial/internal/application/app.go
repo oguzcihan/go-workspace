@@ -6,14 +6,13 @@ import (
 	. "Tutorial/internal/models"
 	"Tutorial/internal/repository"
 	"Tutorial/internal/services"
-	"github.com/gin-gonic/gin"
 )
 
 type ApplicationContext struct {
 	PersonContext handlers.PersonHandler
 }
 
-func NewApplication(ctx *gin.Context) (*ApplicationContext, error) {
+func NewApplication() (*ApplicationContext, error) {
 
 	database := config.DatabaseConnection(&Person{})
 

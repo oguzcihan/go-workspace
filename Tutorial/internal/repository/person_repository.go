@@ -1,6 +1,9 @@
 package repository
 
-import "gorm.io/gorm"
+import (
+	. "Tutorial/internal/models"
+	"gorm.io/gorm"
+)
 
 func NewPersonRepository(database *gorm.DB) *PersonRepository {
 	//error olmalı
@@ -9,4 +12,9 @@ func NewPersonRepository(database *gorm.DB) *PersonRepository {
 
 type PersonRepository struct {
 	DB *gorm.DB
+}
+
+func (u PersonRepository) Create(person *Person) *Person {
+	u.DB.Create(&person)
+	return person
 }

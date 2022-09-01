@@ -1,6 +1,7 @@
 package handlers
 
 import (
+	. "Tutorial/internal/models"
 	. "Tutorial/internal/services"
 	"github.com/gin-gonic/gin"
 )
@@ -18,5 +19,8 @@ type personHandler struct {
 }
 
 func (p personHandler) Create(ctx *gin.Context) {
-
+	var person Person
+	ctx.BindJSON(&person)
+	result := p.service.Create(&person)
+	ctx.JSON(200, result)
 }
