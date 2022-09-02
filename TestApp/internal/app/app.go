@@ -16,6 +16,7 @@ type ApplicationContext struct {
 }
 
 func NewApplication(context Context) (*ApplicationContext, error) {
+
 	//birden fazla model olduğu durumu için generic yapmak gerekiyor
 	database := config.DatabaseConnection(&User{})
 
@@ -24,6 +25,6 @@ func NewApplication(context Context) (*ApplicationContext, error) {
 	userHandler := handler.NewUserHandler(*userService)
 	//exit yapılabilir app boş dönebilir error msg
 
-	//birden fazla model olduğunda applicationcontext nasıl yapılmalı
+	//birden fazla model olduğunda applicationcontext nasıl yapılmalı?
 	return &ApplicationContext{User: userHandler}, nil
 }

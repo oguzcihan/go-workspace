@@ -111,13 +111,13 @@ func (uHandler *userHandler) Save(w http.ResponseWriter, r *http.Request) {
 func (uHandler *userHandler) Delete(w http.ResponseWriter, r *http.Request) {
 
 	requestId := mux.Vars(r)["id"]
+	userId, convertError := strconv.Atoi(requestId) //hata olursa?
 	if len(requestId) == 0 {
 		//http.Error(w, "Id boş olamaz", http.StatusBadRequest)
 		_ = JSON(w, http.StatusBadRequest, EmptyId)
 		return
 	}
 
-	userId, convertError := strconv.Atoi(requestId) //hata olursa?
 	if convertError != nil {
 		return
 	}
@@ -133,6 +133,7 @@ func (uHandler *userHandler) Delete(w http.ResponseWriter, r *http.Request) {
 
 func (uHandler *userHandler) Patch(w http.ResponseWriter, r *http.Request) {
 
+	//
 	var resultMap map[string]string
 
 	bodyError := json.NewDecoder(r.Body).Decode(&resultMap)
@@ -146,6 +147,7 @@ func (uHandler *userHandler) Patch(w http.ResponseWriter, r *http.Request) {
 		http.Error(w, "Id boş olamaz", http.StatusBadRequest)
 		return
 	}
+	//kontrol olmalı
 	resultMap["id"] = requestId
 
 	resultPatch, err := uHandler.service.Patch(r.Context(), resultMap)

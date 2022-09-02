@@ -8,7 +8,7 @@ import (
 var db *gorm.DB
 
 func main() {
-	application.RunServer()
+	application.StartServer()
 
 	//r := gin.Default()
 	//r.POST("/people", CreatePerson)

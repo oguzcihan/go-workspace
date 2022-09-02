@@ -5,7 +5,7 @@ import (
 	"github.com/gin-gonic/gin"
 )
 
-func RunServer() {
+func StartServer() {
 	router := gin.Default()
 	router.SetTrustedProxies([]string{" 127.0.0.1"})
 

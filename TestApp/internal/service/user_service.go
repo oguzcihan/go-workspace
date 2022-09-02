@@ -91,6 +91,7 @@ func (service UserService) Delete(ctx Context, id int) error {
 }
 
 func (service UserService) Patch(ctx Context, user map[string]string) (int, error) {
+	//pointer kullanılabilir nil göndermek için
 	var users User
 	id := user["id"]
 	usersID, err := strconv.Atoi(id)
@@ -104,7 +105,8 @@ func (service UserService) Patch(ctx Context, user map[string]string) (int, erro
 	return service.repository.Patch(ctx, &users)
 }
 
-func (service UserService) GelAllUser(ctx Context) (*[]User, error) {
+func (service UserService) GelAllUser(ctx Context) ([]User, error) {
+	//filter-pagination
 	return service.repository.GetAllUser(ctx)
 }
 

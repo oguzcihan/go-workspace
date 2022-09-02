@@ -9,6 +9,9 @@ import (
 //type UserRepository interface {
 //	Create(context Context, user *User) (*User, error)
 //}
+/*
+	Repository her model için ayrı mı olmalı?
+*/
 
 func NewUserRepository(database *gorm.DB) *UserRepository {
 	//error olmalı
@@ -52,22 +55,17 @@ func (u UserRepository) Delete(ctx Context, id int) error {
 }
 
 func (u UserRepository) Patch(ctx Context, user *User) (int, error) {
-	//var userModel User
-	//result := u.DB.Model(&userModel).Where("id", user.ID).Updates(user)
-	//if result.Error != nil {
-	//	return result.Error
-	//}
-	//return nil
 	var userModel User
 	res := u.DB.Model(&userModel).Where("id = ?", user.ID).Updates(user)
 	if res.Error != nil {
 		return 0, res.Error
 	}
+	//success/error
 	return user.ID, nil
 }
 
-func (u UserRepository) GetAllUser(ctx Context) (*[]User, error) {
-	var users *[]User
+func (u UserRepository) GetAllUser(ctx Context) ([]User, error) {
+	var users []User
 	result := u.DB.Where("is_active=true").Find(&users)
 
 	if result != nil {
