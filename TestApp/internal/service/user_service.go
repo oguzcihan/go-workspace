@@ -22,8 +22,8 @@ var (
 	SuccessUserDelete      = NewError("success_user_delete", 200)
 )
 
-func NewUserService(_repository UserRepository) *UserService {
-	return &UserService{repository: _repository}
+func NewUserService(_repository UserRepository) UserService {
+	return UserService{repository: _repository}
 }
 
 type UserService struct {

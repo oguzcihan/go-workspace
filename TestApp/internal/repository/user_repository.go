@@ -13,9 +13,9 @@ import (
 	Repository her model için ayrı mı olmalı?
 */
 
-func NewUserRepository(database *gorm.DB) *UserRepository {
+func NewUserRepository(database *gorm.DB) UserRepository {
 	//error olmalı
-	return &UserRepository{DB: database}
+	return UserRepository{DB: database}
 }
 
 type UserRepository struct {

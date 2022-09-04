@@ -1,12 +1,14 @@
 package models
 
+import "time"
+
 type Person struct {
 	ID        uint   `json:"id"`
-	Firstname string `json:"firstname"`
-	Lastname  string `json:"lastname"`
+	Firstname string `json:"firstname" validate:"required"`
+	Lastname  string `json:"lastname" validate:"required"`
 	City      string `json:"city"`
+	CreatedAt time.Time
+	UpdatedAt time.Time
 }
 
-func (e *Person) TableName() string {
-	return "person"
-}
+type Persons []Person

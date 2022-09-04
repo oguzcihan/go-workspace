@@ -1,8 +1,6 @@
 package main
 
-import (
-	"Tutorial/internal/application"
-)
+import "ExampleProject/internal/application"
 
 func main() {
 	application.StartServer()

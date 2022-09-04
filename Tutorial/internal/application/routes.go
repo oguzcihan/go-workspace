@@ -11,4 +11,8 @@ func PersonRoute(r *gin.Engine) {
 	r.POST("/people/", func(context *gin.Context) {
 		application.PersonContext.Create(context)
 	})
+
+	r.GET("/pagination/", func(context *gin.Context) {
+		application.PersonContext.GetAll(context)
+	})
 }

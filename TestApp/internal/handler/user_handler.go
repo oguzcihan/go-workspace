@@ -18,16 +18,17 @@ const (
 	jsonValue = "application/json"
 )
 
-type UserHandler interface {
+type IUserHandler interface {
 	Create(w http.ResponseWriter, r *http.Request)
 	Save(w http.ResponseWriter, r *http.Request)
 	Delete(w http.ResponseWriter, r *http.Request)
 	GetAllUser(w http.ResponseWriter, r *http.Request)
+	GetAllUserDeneme(w http.ResponseWriter, r *http.Request)
 	Patch(w http.ResponseWriter, r *http.Request)
 }
 
-func NewUserHandler(_service UserService) UserHandler {
-	return &userHandler{service: _service}
+func NewUserHandler(_service UserService) IUserHandler {
+	return userHandler{service: _service}
 }
 
 type userHandler struct {
@@ -41,7 +42,7 @@ var (
 	EmptyId = utils.NewError("cannot_empty_id", 400)
 )
 
-func (uHandler *userHandler) Create(w http.ResponseWriter, r *http.Request) {
+func (uHandler userHandler) Create(w http.ResponseWriter, r *http.Request) {
 
 	bodyError := json.NewDecoder(r.Body).Decode(&user)
 	defer r.Body.Close()
@@ -57,7 +58,6 @@ func (uHandler *userHandler) Create(w http.ResponseWriter, r *http.Request) {
 		_ = JSON(w, http.StatusBadRequest, requestErr)
 		return
 	}
-
 	//if true,registration start
 	resCreateUser, errs := uHandler.service.Create(r.Context(), user)
 	if errors.As(errs, &customError) {
@@ -71,7 +71,7 @@ func (uHandler *userHandler) Create(w http.ResponseWriter, r *http.Request) {
 
 }
 
-func (uHandler *userHandler) Save(w http.ResponseWriter, r *http.Request) {
+func (uHandler userHandler) Save(w http.ResponseWriter, r *http.Request) {
 
 	bodyError := json.NewDecoder(r.Body).Decode(&user)
 	if bodyError != nil {
@@ -108,7 +108,7 @@ func (uHandler *userHandler) Save(w http.ResponseWriter, r *http.Request) {
 
 }
 
-func (uHandler *userHandler) Delete(w http.ResponseWriter, r *http.Request) {
+func (uHandler userHandler) Delete(w http.ResponseWriter, r *http.Request) {
 
 	requestId := mux.Vars(r)["id"]
 	userId, convertError := strconv.Atoi(requestId) //hata olursa?
@@ -131,9 +131,8 @@ func (uHandler *userHandler) Delete(w http.ResponseWriter, r *http.Request) {
 
 }
 
-func (uHandler *userHandler) Patch(w http.ResponseWriter, r *http.Request) {
+func (uHandler userHandler) Patch(w http.ResponseWriter, r *http.Request) {
 
-	//
 	var resultMap map[string]string
 
 	bodyError := json.NewDecoder(r.Body).Decode(&resultMap)
@@ -157,13 +156,17 @@ func (uHandler *userHandler) Patch(w http.ResponseWriter, r *http.Request) {
 	_ = JSON(w, 200, resultPatch)
 }
 
-func (uHandler *userHandler) GetAllUser(w http.ResponseWriter, r *http.Request) {
+func (uHandler userHandler) GetAllUser(w http.ResponseWriter, r *http.Request) {
 	users, err := uHandler.service.GelAllUser(r.Context())
 	if err != nil {
 		http.Error(w, err.Error(), http.StatusBadRequest)
 		return
 	}
 	_ = JSON(w, http.StatusOK, users)
+}
+
+func (uHandler userHandler) GetAllUserDeneme(w http.ResponseWriter, r *http.Request) {
+
 }
 
 func JSON(w http.ResponseWriter, code int, res interface{}) error {
