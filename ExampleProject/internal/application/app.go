@@ -9,7 +9,7 @@ import (
 )
 
 type AppContext struct {
-	UserContext handlers.IUserHandler
+	UserHandler handlers.IUserHandler
 }
 
 func NewApplication() (AppContext, error) {
@@ -20,5 +20,5 @@ func NewApplication() (AppContext, error) {
 	userService := services.NewUserService(userRepository)
 	userHandler := handlers.NewUserHandler(userService)
 
-	return AppContext{UserContext: userHandler}, nil
+	return AppContext{UserHandler: userHandler}, nil
 }

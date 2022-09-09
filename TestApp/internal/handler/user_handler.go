@@ -174,8 +174,3 @@ func JSON(w http.ResponseWriter, code int, res interface{}) error {
 	w.WriteHeader(code)
 	return json.NewEncoder(w).Encode(res)
 }
-
-/*
-Marshall ve ioreader bellekten gelen verilerde kullanmak performansı daha iyi yapar
-Body den alınan verilerde NewDecoder ve Decode daha performanslıdır.
-*/

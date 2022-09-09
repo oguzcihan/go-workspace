@@ -33,9 +33,9 @@ func (p personHandler) GetAll(ctx *gin.Context) {
 	pagination := utils.GeneratePaginationRequest(ctx)
 	response := p.service.GetAll(ctx, pagination)
 
-	if !response.Success {
-		code = http.StatusBadRequest
-	}
+	//if !response.Success {
+	//	code = http.StatusBadRequest
+	//}
 
 	ctx.JSON(code, response)
 
