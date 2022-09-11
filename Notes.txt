@@ -185,3 +185,9 @@ func translateAll() {
 //	}
 //	return resUsername, nil
 //}
+
+
+
+limit => kaç tane geleceğini ayarlar
+offset => kaçtan başlayacağını ayarlar
+page => sayfa sayısı

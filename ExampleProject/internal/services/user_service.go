@@ -2,11 +2,10 @@ package services
 
 import (
 	"ExampleProject/internal/dtos"
+	"ExampleProject/internal/dtos/user"
 	. "ExampleProject/internal/models"
 	. "ExampleProject/internal/repository"
 	. "ExampleProject/internal/utils"
-	"fmt"
-	"net/http"
 	"time"
 )
 
@@ -24,7 +23,7 @@ var (
 	SuccessUserDelete      = NewError("success_user_delete", 200)
 )
 
-func (service UserService) Create(dto dtos.UserDto) (*dtos.Response, error) {
+func (service UserService) Create(dto user.UserDto) (*User, error) {
 
 	createData := User{
 		TcNo:      dto.TcNo,
@@ -36,17 +35,19 @@ func (service UserService) Create(dto dtos.UserDto) (*dtos.Response, error) {
 		CreatedAt: time.Now(),
 		IsActive:  true,
 	}
-	err := service.checkUserName(dto.UserName, "")
-	if err != nil {
+	checkUserErr := service.checkUserName(dto.UserName, "")
+	if checkUserErr != nil {
 		return nil, ErrorUserAlreadyExists
 	}
-	userCreate := service.repository.Create(&createData)
-	var userData = userCreate.Result.(*User)
-	//code olmamalı
-	return &dtos.Response{Success: true, Code: 201, Data: userData}, nil
+	createUser, err := service.repository.Create(&createData)
+	if err != nil {
+		return nil, err
+	}
+
+	return createUser, nil
 }
 
-func (service UserService) Save(dto dtos.UserDto, userId int) (*dtos.Response, error) {
+func (service UserService) Save(dto user.UserDto, userId int) (*User, error) {
 	getUser, _ := service.getUserById(userId)
 	if getUser.ID == userId {
 		//nil değilse username db'de mevcut
@@ -64,46 +65,54 @@ func (service UserService) Save(dto dtos.UserDto, userId int) (*dtos.Response, e
 				IsActive:  dto.IsActive,
 			}
 
-			userSave := service.repository.Save(&updateData)
-			var userData = userSave.Result.(*User)
-			return &dtos.Response{Success: true, Code: http.StatusOK, Data: userData}, nil
+			userSave, saveErr := service.repository.Save(&updateData)
+			if saveErr != nil {
+				return nil, saveErr
+			}
+			return userSave, nil
 		}
 
 	}
 	return nil, ErrorUserAlreadyExists
 }
 
-func (service UserService) Delete(id int) (*dtos.Response, error) {
+func (service UserService) Delete(id int) error {
 	getUser, _ := service.getUserById(id)
 	if getUser.ID != id {
-		return nil, ErrorUserNotFound
+		return ErrorUserNotFound
 	}
 
 	result := service.repository.Delete(id)
 	if result != nil {
-		return nil, NewError(result.Error.Error(), http.StatusBadRequest)
+		return SuccessUserDelete
 	}
 	//data nil gidiyor nasıl olmalı?
-	return &dtos.Response{Success: true, Code: http.StatusOK}, nil
+	return nil
 
 }
 
-func (service UserService) GetAllUser(userList *dtos.UserList) (*dtos.UserList, error) {
-	getResult := service.repository.GetAll(userList)
-	if getResult.Error != nil {
-		return nil, NewError(getResult.Error.Error(), http.StatusBadRequest)
+func (service UserService) GetAllUser(pagination *dtos.Pagination) (*user.UserList, error) {
+	getResult, err := service.repository.GetAll(pagination)
+	if err != nil {
+		return nil, err
 	}
+	//var totalPages, fromRow, toRow int64 = 0, 0, 0, 0
+	//var totalPages int64 = 0
+	//usersCount := len(data.Users)
+	//calculate total pages
+	//totalPages = int64(math.Ceil(float64(getResult.TotalRows)/float64(pagination.Limit))) - 1
 
-	var data = getResult.Result.(*dtos.UserList)
-	searchQuery := ""
+	//TODO: Page sayma işlemi yapılacak,
+	//TODO: password filter olmaktan çıkarılacak hariç tutulacak
 
-	for _, search := range userList.Searches {
-		searchQuery += fmt.Sprintf("&%s=%s", search.Column, search.Query)
+	if getResult.TotalCount != 0 {
+		users := user.UserList{
+			Users:      getResult.Rows,
+			TotalCount: getResult.TotalCount,
+		}
+		return &users, nil
 	}
-	usersCount := len(data.Users)
-	//search silinecek
-	return &dtos.UserList{Users: data.Users,
-		Searches: data.Searches, TotalCount: usersCount}, nil
+	return nil, ErrorUserNotFound
 }
 
 func (service UserService) checkUserName(newUserName string, oldUserName string) error {

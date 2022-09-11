@@ -1,0 +1,121 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="AutoImportSettings">
+    <option name="autoReloadType" value="ALL" />
+  </component>
+  <component name="ChangeListManager">
+    <list default="true" id="1e086679-bae6-4035-a505-60b08bf7bf53" name="Changes" comment="">
+      <change afterPath="$PROJECT_DIR$/../ExampleProject/.idea/workspace.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../ExampleProject/internal/dtos/pagination.go" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../ExampleProject/internal/dtos/user/user_list.go" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../ExampleProject/internal/dtos/user/user_request.go" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../ExampleProject/internal/dtos/user/user_response.go" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../ExampleProject/internal/utils/zap_logger.go" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../TestApp/.idea/workspace.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../TestApp/internal/utils/zap_logger.go" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../ExampleProject/.idea/.gitignore" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../ExampleProject/go.mod" beforeDir="false" afterPath="$PROJECT_DIR$/../ExampleProject/go.mod" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../ExampleProject/go.sum" beforeDir="false" afterPath="$PROJECT_DIR$/../ExampleProject/go.sum" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../ExampleProject/internal/application/server.go" beforeDir="false" afterPath="$PROJECT_DIR$/../ExampleProject/internal/application/server.go" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../ExampleProject/internal/dtos/repository_result.go" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../ExampleProject/internal/dtos/search.go" beforeDir="false" afterPath="$PROJECT_DIR$/../ExampleProject/internal/dtos/filter.go" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../ExampleProject/internal/dtos/user_dto.go" beforeDir="false" afterPath="$PROJECT_DIR$/../ExampleProject/internal/dtos/user/user_dto.go" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../ExampleProject/internal/dtos/user_list.go" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../ExampleProject/internal/handlers/user_handler.go" beforeDir="false" afterPath="$PROJECT_DIR$/../ExampleProject/internal/handlers/user_handler.go" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../ExampleProject/internal/models/user.go" beforeDir="false" afterPath="$PROJECT_DIR$/../ExampleProject/internal/models/user.go" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../ExampleProject/internal/repository/user_repository.go" beforeDir="false" afterPath="$PROJECT_DIR$/../ExampleProject/internal/repository/user_repository.go" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../ExampleProject/internal/services/user_service.go" beforeDir="false" afterPath="$PROJECT_DIR$/../ExampleProject/internal/services/user_service.go" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../ExampleProject/internal/utils/paginations.go" beforeDir="false" afterPath="$PROJECT_DIR$/../ExampleProject/internal/utils/paginations.go" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../Notes.txt" beforeDir="false" afterPath="$PROJECT_DIR$/../Notes.txt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../TestApp/.idea/.gitignore" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../TestApp/.idea/TestApp.iml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../TestApp/.idea/dataSources.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../TestApp/.idea/modules.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../TestApp/.idea/vcs.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../TestApp/go.mod" beforeDir="false" afterPath="$PROJECT_DIR$/../TestApp/go.mod" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../TestApp/go.sum" beforeDir="false" afterPath="$PROJECT_DIR$/../TestApp/go.sum" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../TestApp/internal/app/server.go" beforeDir="false" afterPath="$PROJECT_DIR$/../TestApp/internal/app/server.go" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/.gitignore" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/internal/config/database.go" beforeDir="false" afterPath="$PROJECT_DIR$/internal/config/database.go" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/internal/repository/person_repository.go" beforeDir="false" afterPath="$PROJECT_DIR$/internal/repository/person_repository.go" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/internal/utils/paginations.go" beforeDir="false" afterPath="$PROJECT_DIR$/internal/utils/paginations.go" afterDir="false" />
+    </list>
+    <option name="SHOW_DIALOG" value="false" />
+    <option name="HIGHLIGHT_CONFLICTS" value="true" />
+    <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
+    <option name="LAST_RESOLUTION" value="IGNORE" />
+  </component>
+  <component name="GOROOT" url="file://C:/Program Files/Go" />
+  <component name="Git.Settings">
+    <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$/.." />
+  </component>
+  <component name="MarkdownSettingsMigration">
+    <option name="stateVersion" value="1" />
+  </component>
+  <component name="ProjectId" id="2EcSjJRBjJuDz1xKAHxHuvjPvKd" />
+  <component name="ProjectLevelVcsManager" settingsEditedManually="true" />
+  <component name="ProjectViewState">
+    <option name="hideEmptyMiddlePackages" value="true" />
+    <option name="showLibraryContents" value="true" />
+  </component>
+  <component name="PropertiesComponent"><![CDATA[{
+  "keyToString": {
+    "RunOnceActivity.OpenProjectViewOnStart": "true",
+    "RunOnceActivity.ShowReadmeOnStart": "true",
+    "RunOnceActivity.go.formatter.settings.were.checked": "true",
+    "RunOnceActivity.go.migrated.go.modules.settings": "true",
+    "RunOnceActivity.go.modules.go.list.on.any.changes.was.set": "true",
+    "RunOnceActivity.go.watchers.conflict.with.on.save.actions.check.performed": "true",
+    "WebServerToolWindowFactoryState": "false",
+    "go.import.settings.migrated": "true",
+    "go.sdk.automatically.set": "true",
+    "last_opened_file_path": "C:/Users/oguzc"
+  }
+}]]></component>
+  <component name="RunManager">
+    <configuration name="go build Tutorial/cmd" type="GoApplicationRunConfiguration" factoryName="Go Application" temporary="true" nameIsGenerated="true">
+      <module name="Tutorial" />
+      <working_directory value="$PROJECT_DIR$" />
+      <kind value="PACKAGE" />
+      <package value="Tutorial/cmd" />
+      <directory value="$PROJECT_DIR$" />
+      <filePath value="$PROJECT_DIR$/cmd/main.go" />
+      <method v="2" />
+    </configuration>
+    <recent_temporary>
+      <list>
+        <item itemvalue="Go Build.go build Tutorial/cmd" />
+      </list>
+    </recent_temporary>
+  </component>
+  <component name="SpellCheckerSettings" RuntimeDictionaries="0" Folders="0" CustomDictionaries="0" DefaultDictionary="application-level" UseSingleDictionary="true" transferred="true" />
+  <component name="TypeScriptGeneratedFilesManager">
+    <option name="version" value="3" />
+  </component>
+  <component name="Vcs.Log.Tabs.Properties">
+    <option name="TAB_STATES">
+      <map>
+        <entry key="MAIN">
+          <value>
+            <State />
+          </value>
+        </entry>
+      </map>
+    </option>
+  </component>
+  <component name="VgoProject">
+    <settings-migrated>true</settings-migrated>
+  </component>
+  <component name="XDebuggerManager">
+    <breakpoint-manager>
+      <breakpoints>
+        <line-breakpoint enabled="true" type="DlvLineBreakpoint">
+          <url>file://$PROJECT_DIR$/internal/repository/person_repository.go</url>
+          <line>28</line>
+          <option name="timeStamp" value="2" />
+        </line-breakpoint>
+      </breakpoints>
+    </breakpoint-manager>
+  </component>
+</project>

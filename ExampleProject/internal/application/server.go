@@ -1,27 +1,28 @@
 package application
 
 import (
-	"fmt"
+	"ExampleProject/internal/utils"
 	"github.com/gin-gonic/gin"
-	"log"
+	"go.uber.org/zap"
 )
 
 func StartServer() {
+	utils.InitializeLogger()
+
 	router := gin.Default()
-	errRouter := router.SetTrustedProxies([]string{" 127.0.0.1"})
+	errRouter := router.SetTrustedProxies([]string{"127.0.0.1"})
 	if errRouter != nil {
-		log.Fatal("Log_SetTrustedProxies:", errRouter)
-		return
+		//log.Fatal("Log_SetTrustedProxies:", errRouter)
+		utils.Logger.Fatal("Log_SetTrustedProxies:", zap.Error(errRouter))
 	}
 
-	fmt.Println("------gin routes connecting-------")
+	utils.Logger.Info("connecting gin routes")
 	UserRoute(router)
-	fmt.Println("-----connected-------")
+	utils.Logger.Info("connected")
 
 	errRun := router.Run(":9090")
 	if errRun != nil {
-		log.Fatal("Log_router_run:", errRun)
-		return
+		utils.Logger.Fatal("log_router_run", zap.Error(errRun))
 	}
 
 	//token entegre

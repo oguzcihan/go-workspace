@@ -3,16 +3,25 @@ package utils
 import (
 	. "ExampleProject/internal/dtos"
 	"github.com/gin-gonic/gin"
+	"net/http"
 	"strconv"
 )
 
-func GeneratePaginationRequest(context *gin.Context) *UserList {
+var (
+	errMessage   = "parse_error"
+	notConverted = NewError("parse_error", http.StatusBadRequest)
+)
+
+func GeneratePaginationRequest(context *gin.Context) (*Pagination, error) {
 	//default limit,page & sort parameter
+	var err error
 	limit := 10
 	page := 1
-	sort := "created_at asc"
+	sort := "asc"
+	start := 0
+	orderBy := "created_at"
 
-	var searches []Search
+	var filters []Filter
 	query := context.Request.URL.Query()
 
 	for key, value := range query {
@@ -20,22 +29,40 @@ func GeneratePaginationRequest(context *gin.Context) *UserList {
 
 		switch key {
 		case "limit":
-			limit, _ = strconv.Atoi(queryValue)
+			limit, err = strconv.Atoi(queryValue)
+			if err != nil {
+				Logger.Error(errMessage)
+				return nil, notConverted
+			}
 			break
 		case "page":
-			page, _ = strconv.Atoi(queryValue)
+			page, err = strconv.Atoi(queryValue)
+			if err != nil {
+				Logger.Error(errMessage)
+				return nil, notConverted
+			}
+			break
+		case "start":
+			start, err = strconv.Atoi(queryValue)
+			if err != nil {
+				Logger.Error(errMessage)
+				return nil, notConverted
+			}
+			break
+		case "order_by":
+			orderBy = queryValue
 			break
 		case "sort_by":
 			sort = queryValue
 			break
 
 		default:
-			search := Search{Column: key, Query: queryValue}
-			searches = append(searches, search)
+			search := Filter{Column: key, Query: queryValue}
+			filters = append(filters, search)
 		}
 
 	}
 
-	return &UserList{Limit: limit, Page: page, Sort: sort, Searches: searches}
+	return &Pagination{Limit: limit, Page: page, Sort: sort, Filters: filters, Start: start, OrderBy: orderBy}, nil
 
 }

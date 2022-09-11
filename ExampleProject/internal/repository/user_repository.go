@@ -1,7 +1,7 @@
 package repository
 
 import (
-	"ExampleProject/internal/dtos"
+	. "ExampleProject/internal/dtos"
 	. "ExampleProject/internal/models"
 	"fmt"
 	"gorm.io/gorm"
@@ -26,33 +26,35 @@ func (u UserRepository) Create(user *User) (*User, error) {
 }
 
 // Save update the user
-func (u UserRepository) Save(user *User) dtos.RepositoryResult {
+func (u UserRepository) Save(user *User) (*User, error) {
 	//update kullanarak hangi kolonların güncellenmek istediği verilmeli
 	saveUser := u.DB.Omit("created_at").Where("id", user.ID).Save(&user).Error
 	if saveUser != nil {
-		return dtos.RepositoryResult{Error: saveUser}
+		return nil, saveUser
 	}
-	return dtos.RepositoryResult{Result: user}
+	return user, nil
 }
 
-func (u UserRepository) Delete(id int) *dtos.RepositoryResult {
+func (u UserRepository) Delete(id int) error {
 	var user User
 	deleteErr := u.DB.Where("id", id).Delete(&user).Error
 	if deleteErr != nil {
-		return &dtos.RepositoryResult{Error: deleteErr}
+		return deleteErr
 	}
 	return nil
 }
 
-func (u UserRepository) GetAll(userList *dtos.UserList) dtos.RepositoryResult {
+func (u UserRepository) GetAll(pagination *Pagination) (*Pagination, error) {
 	var users []User
-
+	var totalRows int64 = 0
 	//get data with limit,order
-	//offset(page)
-	findUser := u.DB.Limit(userList.Limit).Order(userList.Sort)
-	searches := userList.Searches
-	if searches != nil {
-		for _, value := range searches {
+	offset := (pagination.Page * pagination.Limit) - pagination.Limit
+
+	order := fmt.Sprintf("%s %s", pagination.OrderBy, pagination.Sort)
+	findUser := u.DB.Limit(pagination.Limit).Offset(offset).Order(order)
+	filters := pagination.Filters
+	if filters != nil {
+		for _, value := range filters {
 			column := value.Column
 			query := value.Query
 
@@ -60,11 +62,17 @@ func (u UserRepository) GetAll(userList *dtos.UserList) dtos.RepositoryResult {
 			findUser = findUser.Where(buildQuery, query)
 		}
 	}
+	errCount := u.DB.Model(&User{}).Count(&totalRows).Error
+	if errCount != nil {
+		return nil, errCount
+	}
+	pagination.TotalRows = totalRows
 
 	findUser = findUser.Find(&users)
-	userList.Users = users
+	pagination.Rows = users
+	pagination.TotalCount = findUser.RowsAffected
 
-	return dtos.RepositoryResult{Result: userList}
+	return pagination, nil
 }
 
 func (u UserRepository) GetUsername(userName string) (*User, error) {

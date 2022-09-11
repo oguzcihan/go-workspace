@@ -25,12 +25,12 @@ func (u PersonRepository) Create(person *Person) *Person {
 func (u PersonRepository) GetAll(pagination *dtos.Pagination) (RepositoryResult, int64) {
 	var persons []Person
 	var totalRows, totalPages, fromRow, toRow int64 = 0, 0, 0, 0
-
-	//offset := pagination.Page * pagination.Limit //verileri bu sonuçtan sonra almyaa başlar örn 10 dan başla almaya
-
+	//var offset int = 0
+	offset := (pagination.Page * pagination.Limit) - pagination.Limit //verileri bu sonuçtan sonra almyaa başlar örn 10 dan başla almaya
+	//offset = offset + pagination.Limit
 	//get data with limit,offset &order
-	//find := u.DB.Limit(pagination.Limit).Offset(offset).Order(pagination.Sort)
-	find := u.DB.Limit(pagination.Limit).Order(pagination.Sort)
+	find := u.DB.Limit(pagination.Limit).Offset(offset).Order(pagination.Sort)
+	//find := u.DB.Limit(pagination.Limit).Order(pagination.Sort)
 
 	//generate where query
 	searhcs := pagination.Searches

@@ -1,7 +1,7 @@
 package handlers
 
 import (
-	"ExampleProject/internal/dtos"
+	"ExampleProject/internal/dtos/user"
 	. "ExampleProject/internal/services"
 	. "ExampleProject/internal/utils"
 	"errors"
@@ -35,7 +35,7 @@ var (
 
 func (userHandler UserHandler) Create(context *gin.Context) {
 	//TODO create user
-	var userDto dtos.UserDto
+	var userDto user.UserDto
 	errJson := context.ShouldBindJSON(&userDto)
 	if errJson != nil {
 		JSON(context, http.StatusBadRequest, notConverted)
@@ -57,7 +57,7 @@ func (userHandler UserHandler) Create(context *gin.Context) {
 
 func (userHandler UserHandler) Save(context *gin.Context) {
 	//TODO update user
-	var userDto dtos.UserDto
+	var userDto user.UserDto
 	Id := context.Param("id")
 	if len(Id) == 0 {
 		JSON(context, http.StatusBadRequest, emptyId)
@@ -104,18 +104,21 @@ func (userHandler UserHandler) Delete(context *gin.Context) {
 		return
 	}
 
-	deleteResponse, err := userHandler.service.Delete(convId)
+	err := userHandler.service.Delete(convId)
 	if errors.As(err, &customError) {
 		JSON(context, customError.Status, err)
 		return
 	}
 
-	JSON(context, http.StatusOK, deleteResponse)
+	JSON(context, http.StatusOK, err)
 
 }
 
 func (userHandler UserHandler) GetAllUser(context *gin.Context) {
-	generateUserPagination := GeneratePaginationRequest(context)
+	generateUserPagination, paginationErr := GeneratePaginationRequest(context)
+	if paginationErr != nil {
+		JSON(context, http.StatusBadRequest, paginationErr)
+	}
 	//filterOptions, paginationOptions
 	getResponse, err := userHandler.service.GetAllUser(generateUserPagination)
 	if errors.As(err, &customError) {

@@ -1,22 +1,24 @@
 package app
 
 import (
+	. "TestApp/internal/utils"
 	"context"
-	"fmt"
 	"github.com/gorilla/mux"
 	"log"
 	"net/http"
 )
 
 func RunServer() {
+	InitializeLogger()
 	r := mux.NewRouter()
-	fmt.Println("connecting to routes")
 
+	Logger.Info("Connecting routes")
 	err := UserRoute(r, context.Background())
 	if err != nil {
+		Logger.Error("routes_error")
 		return
 	}
-	fmt.Println("connected")
+	Logger.Info("Connected")
 
 	log.Fatal(http.ListenAndServe(":9090", r))
 }
