@@ -12,7 +12,6 @@ func StartServer() {
 	router := gin.Default()
 	errRouter := router.SetTrustedProxies([]string{"127.0.0.1"})
 	if errRouter != nil {
-		//log.Fatal("Log_SetTrustedProxies:", errRouter)
 		utils.Logger.Fatal("Log_SetTrustedProxies:", zap.Error(errRouter))
 	}
 
@@ -24,11 +23,4 @@ func StartServer() {
 	if errRun != nil {
 		utils.Logger.Fatal("log_router_run", zap.Error(errRun))
 	}
-
-	//token entegre
-	//auth
-	//register
-	//login ve login ile erişilen endpoint
-	//jwt
-	//zap kullanılacak
 }
