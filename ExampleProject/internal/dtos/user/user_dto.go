@@ -9,6 +9,7 @@ type UserDto struct {
 	Email     string `json:"email" validate:"required,email"`
 	Password  string `json:"password" validate:"required,gt=4,lt=9"`
 	IsActive  bool   `json:"isActive"`
+	Role      string `json:"role"`
 }
 
 /*

@@ -18,7 +18,7 @@ type IUserHandler interface {
 	Patch(context *gin.Context)
 }
 
-func NewUserHandler(_service UserService) IUserHandler {
+func NewUserHandler(_service UserService) UserHandler {
 	return UserHandler{service: _service}
 }
 
@@ -115,6 +115,7 @@ func (userHandler UserHandler) Delete(context *gin.Context) {
 }
 
 func (userHandler UserHandler) GetAllUser(context *gin.Context) {
+	//var userFilter filter.UserFilter
 	generateUserPagination, paginationErr := GeneratePaginationRequest(context)
 	if paginationErr != nil {
 		JSON(context, http.StatusBadRequest, paginationErr)

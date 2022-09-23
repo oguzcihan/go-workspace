@@ -1,7 +1,6 @@
 package models
 
 import (
-	"ExampleProject/internal/dtos/user"
 	"gorm.io/gorm"
 	"time"
 )
@@ -15,8 +14,8 @@ type User struct {
 	Email     string
 	Password  string
 	IsActive  bool
+	Role      string
 	CreatedAt time.Time      `json:"createdAt"`
 	UpdatedAt time.Time      `json:"updatedAt" gorm:"autoUpdateTime:false"`
 	DeletedAt gorm.DeletedAt `json:"deletedAt"`
-	userslist []user.UserList
 }

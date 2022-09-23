@@ -6,6 +6,8 @@ import (
 	. "ExampleProject/internal/models"
 	. "ExampleProject/internal/repository"
 	. "ExampleProject/internal/utils"
+	"go.uber.org/zap"
+	"golang.org/x/crypto/bcrypt"
 	"time"
 )
 
@@ -102,9 +104,6 @@ func (service UserService) GetAllUser(pagination *dtos.Pagination) (*user.UserLi
 	//calculate total pages
 	//totalPages = int64(math.Ceil(float64(getResult.TotalRows)/float64(pagination.Limit))) - 1
 
-	//TODO: Page sayma işlemi yapılacak,
-	//TODO: password filter olmaktan çıkarılacak hariç tutulacak
-
 	if getResult.TotalCount != 0 {
 		users := user.UserList{
 			Users:      getResult.Rows,
@@ -135,4 +134,19 @@ func (service UserService) getUserById(userId int) (*User, error) {
 		return nil, err
 	}
 	return resGetUserById, nil
+}
+
+func generateHashPassword(password string) (string, error) {
+	bytes, err := bcrypt.GenerateFromPassword([]byte(password), 14)
+	if err != nil {
+		Logger.Error("hash_password_error", zap.Error(err))
+		return "", err
+	}
+	return string(bytes), nil
+}
+
+func checkPasswordHash(password, hash string) bool {
+	//TODO:error kontrolü yapılacak
+	err := bcrypt.CompareHashAndPassword([]byte(hash), []byte(password))
+	return err == nil
 }

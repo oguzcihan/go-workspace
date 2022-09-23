@@ -1,6 +1,6 @@
 package dtos
 
-type Filter struct {
+type Search struct {
 	Column string `json:"column"`
 	Query  string `json:"query"`
 }

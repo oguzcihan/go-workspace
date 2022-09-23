@@ -15,12 +15,12 @@ func StartServer() {
 		utils.Logger.Fatal("Log_SetTrustedProxies:", zap.Error(errRouter))
 	}
 
-	utils.Logger.Info("connecting gin routes")
+	utils.Logger.Info("---connecting gin routes---")
 	UserRoute(router)
-	utils.Logger.Info("connected")
+	utils.Logger.Info("---connected---")
 
 	errRun := router.Run(":9090")
 	if errRun != nil {
-		utils.Logger.Fatal("log_router_run", zap.Error(errRun))
+		utils.Logger.Fatal("router_run_error", zap.Error(errRun))
 	}
 }

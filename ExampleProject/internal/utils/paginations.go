@@ -21,7 +21,7 @@ func GeneratePaginationRequest(context *gin.Context) (*Pagination, error) {
 	start := 0
 	orderBy := "created_at"
 
-	var filters []Filter
+	var searches []Search
 	query := context.Request.URL.Query()
 
 	for key, value := range query {
@@ -57,12 +57,23 @@ func GeneratePaginationRequest(context *gin.Context) (*Pagination, error) {
 			break
 
 		default:
-			search := Filter{Column: key, Query: queryValue}
-			filters = append(filters, search)
+			search := Search{Column: key, Query: queryValue}
+			searches = append(searches, search)
 		}
+
+		//if strings.Contains(key, ".") {
+		//	//split query parameter key by dot
+		//	searchkeys := strings.Split(key, ".")
+		//
+		//	//create seaRCH OBJECT
+		//	search := Search{Column: searchkeys[0], Query: queryValue}
+		//
+		//	//add search object to search array
+		//	searches = append(searches, search)
+		//}
 
 	}
 
-	return &Pagination{Limit: limit, Page: page, Sort: sort, Filters: filters, Start: start, OrderBy: orderBy}, nil
+	return &Pagination{Limit: limit, Page: page, Sort: sort, Searches: searches, Start: start, OrderBy: orderBy}, nil
 
 }

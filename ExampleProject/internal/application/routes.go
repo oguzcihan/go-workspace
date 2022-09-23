@@ -1,14 +1,15 @@
 package application
 
 import (
+	"ExampleProject/internal/utils"
 	"github.com/gin-gonic/gin"
-	"log"
+	"go.uber.org/zap"
 )
 
 func UserRoute(r *gin.Engine) {
 	application, err := NewApplication()
 	if err != nil {
-		log.Fatal("Log_NewApplication():", err)
+		utils.Logger.Fatal("application_error", zap.Error(err))
 		return
 	}
 

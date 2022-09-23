@@ -2,6 +2,7 @@ package repository
 
 import (
 	. "ExampleProject/internal/dtos"
+	"ExampleProject/internal/filter"
 	. "ExampleProject/internal/models"
 	"fmt"
 	"gorm.io/gorm"
@@ -45,20 +46,25 @@ func (u UserRepository) Delete(id int) error {
 }
 
 func (u UserRepository) GetAll(pagination *Pagination) (*Pagination, error) {
-	var users []User
+	//TODO: GetAll metodu sadece pagination metodu dönüyor User dönmesi gerekir mi?
+	//TODO: Pagination işlemini model ile nasıl gönderebiliriz?
+	//var users []User
+	var usersFilter []filter.UserFilter
 	var totalRows int64 = 0
 	//get data with limit,order
 	offset := (pagination.Page * pagination.Limit) - pagination.Limit
 
 	order := fmt.Sprintf("%s %s", pagination.OrderBy, pagination.Sort)
 	findUser := u.DB.Limit(pagination.Limit).Offset(offset).Order(order)
-	filters := pagination.Filters
-	if filters != nil {
-		for _, value := range filters {
+	searches := pagination.Searches
+	if searches != nil {
+		for _, value := range searches {
 			column := value.Column
 			query := value.Query
 
-			buildQuery := fmt.Sprintf("%s=?", column)
+			//buildQuery := fmt.Sprintf("%s=?", column)
+			buildQuery := fmt.Sprintf("%s LIKE ?", column)
+			//buildQuery := fmt.Sprintf("%s IN ?", column)
 			findUser = findUser.Where(buildQuery, query)
 		}
 	}
@@ -67,9 +73,9 @@ func (u UserRepository) GetAll(pagination *Pagination) (*Pagination, error) {
 		return nil, errCount
 	}
 	pagination.TotalRows = totalRows
-
-	findUser = findUser.Find(&users)
-	pagination.Rows = users
+	//Model ayrı olarak verildi :)
+	findUser = findUser.Model(&User{}).Find(&usersFilter)
+	pagination.Rows = usersFilter
 	pagination.TotalCount = findUser.RowsAffected
 
 	return pagination, nil
