@@ -5,68 +5,38 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="b4562a15-9983-4091-a90e-7826055d16f6" name="Changes" comment="">
-      <change afterPath="$PROJECT_DIR$/../AwesomeProject/.idea/AwesomeProject.iml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/../AwesomeProject/.idea/modules.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/../AwesomeProject/.idea/vcs.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/../AwesomeProject/.idea/workspace.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/../AwesomeProject/cmd/main.go" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/../AwesomeProject/go.mod" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/../AwesomeProject/go.sum" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/../AwesomeProject/internal/config/database.go" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/../AwesomeProject/internal/core/app.go" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/../AwesomeProject/internal/core/routes.go" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/../AwesomeProject/internal/core/server.go" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/../AwesomeProject/internal/dtos/account/login_dto.go" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/../AwesomeProject/internal/dtos/account/register_dto.go" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/../AwesomeProject/internal/dtos/pagination.go" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/../AwesomeProject/internal/dtos/search.go" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/../AwesomeProject/internal/dtos/userDtos/user_dto.go" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/../AwesomeProject/internal/handlers/account_handler.go" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/../AwesomeProject/internal/handlers/user_handler.go" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/../AwesomeProject/internal/helpers/custom_errors.go" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/../AwesomeProject/internal/helpers/paginations.go" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/../AwesomeProject/internal/helpers/validations.go" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/../AwesomeProject/internal/helpers/zap_logger.go" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/../AwesomeProject/internal/models/user.go" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/../AwesomeProject/internal/repository/user_repository.go" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/../AwesomeProject/internal/services/account_service.go" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/../AwesomeProject/internal/services/user_service.go" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/internal/filter/user_filter.go" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/../TestApp/.idea/TestApp.iml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/../TestApp/.idea/modules.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/../TestApp/.idea/vcs.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/../TestApp/internal/helpers/error_helper.go" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/../TestApp/internal/helpers/hash_helper.go" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/../TestApp/internal/helpers/jwt_helper.go" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/../TestApp/internal/middleware/auth.go" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/../Tutorial/internal/helpers/error_helper.go" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/../Tutorial/internal/helpers/hash_helper.go" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/../Tutorial/internal/helpers/jwt_helper.go" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/../Tutorial/internal/middleware/auth.go" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/../Tutorial/internal/models/user.go" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../AwesomeProject/README.md" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../AwesomeProject/internal/core/routers.go" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../AwesomeProject/internal/dtos/account/token.go" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../AwesomeProject/internal/dtos/user/user_list.go" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../AwesomeProject/internal/filters/user_filter.go" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../AwesomeProject/internal/helpers/hashing.go" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../AwesomeProject/internal/helpers/json.go" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../AwesomeProject/internal/helpers/jwt.go" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../AwesomeProject/internal/middleware/authorization.go" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../AwesomeProject/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/../AwesomeProject/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../AwesomeProject/cmd/main.go" beforeDir="false" afterPath="$PROJECT_DIR$/../AwesomeProject/cmd/main.go" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../AwesomeProject/go.mod" beforeDir="false" afterPath="$PROJECT_DIR$/../AwesomeProject/go.mod" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../AwesomeProject/go.sum" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../AwesomeProject/internal/config/database.go" beforeDir="false" afterPath="$PROJECT_DIR$/../AwesomeProject/internal/config/database.go" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../AwesomeProject/internal/core/app.go" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../AwesomeProject/internal/core/routes.go" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../AwesomeProject/internal/core/server.go" beforeDir="false" afterPath="$PROJECT_DIR$/../AwesomeProject/internal/core/server.go" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../AwesomeProject/internal/dtos/account/login_dto.go" beforeDir="false" afterPath="$PROJECT_DIR$/../AwesomeProject/internal/dtos/account/login_dto.go" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../AwesomeProject/internal/dtos/account/register_dto.go" beforeDir="false" afterPath="$PROJECT_DIR$/../AwesomeProject/internal/dtos/account/register_dto.go" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../AwesomeProject/internal/dtos/userDtos/user_dto.go" beforeDir="false" afterPath="$PROJECT_DIR$/../AwesomeProject/internal/dtos/user/user_dto.go" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../AwesomeProject/internal/handlers/account_handler.go" beforeDir="false" afterPath="$PROJECT_DIR$/../AwesomeProject/internal/handlers/account_handler.go" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../AwesomeProject/internal/handlers/user_handler.go" beforeDir="false" afterPath="$PROJECT_DIR$/../AwesomeProject/internal/handlers/user_handler.go" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../AwesomeProject/internal/helpers/paginations.go" beforeDir="false" afterPath="$PROJECT_DIR$/../AwesomeProject/internal/helpers/paginations.go" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../AwesomeProject/internal/repository/user_repository.go" beforeDir="false" afterPath="$PROJECT_DIR$/../AwesomeProject/internal/repository/user_repository.go" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../AwesomeProject/internal/services/account_service.go" beforeDir="false" afterPath="$PROJECT_DIR$/../AwesomeProject/internal/services/account_service.go" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../AwesomeProject/internal/services/user_service.go" beforeDir="false" afterPath="$PROJECT_DIR$/../AwesomeProject/internal/services/user_service.go" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/go.mod" beforeDir="false" afterPath="$PROJECT_DIR$/go.mod" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/go.sum" beforeDir="false" afterPath="$PROJECT_DIR$/go.sum" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/internal/application/routes.go" beforeDir="false" afterPath="$PROJECT_DIR$/internal/application/routes.go" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/internal/application/server.go" beforeDir="false" afterPath="$PROJECT_DIR$/internal/application/server.go" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/internal/config/database.go" beforeDir="false" afterPath="$PROJECT_DIR$/internal/config/database.go" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/internal/dtos/filter.go" beforeDir="false" afterPath="$PROJECT_DIR$/internal/dtos/search.go" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/internal/dtos/pagination.go" beforeDir="false" afterPath="$PROJECT_DIR$/internal/dtos/pagination.go" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/internal/dtos/user/user_dto.go" beforeDir="false" afterPath="$PROJECT_DIR$/internal/dtos/user/user_dto.go" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/internal/handlers/user_handler.go" beforeDir="false" afterPath="$PROJECT_DIR$/internal/handlers/user_handler.go" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/internal/models/user.go" beforeDir="false" afterPath="$PROJECT_DIR$/internal/models/user.go" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/internal/repository/user_repository.go" beforeDir="false" afterPath="$PROJECT_DIR$/internal/repository/user_repository.go" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/internal/services/user_service.go" beforeDir="false" afterPath="$PROJECT_DIR$/internal/services/user_service.go" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/internal/utils/paginations.go" beforeDir="false" afterPath="$PROJECT_DIR$/internal/utils/paginations.go" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/../TestApp/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/../TestApp/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/../TestApp/cmd/main.go" beforeDir="false" afterPath="$PROJECT_DIR$/../TestApp/cmd/main.go" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../TestApp/go.mod" beforeDir="false" afterPath="$PROJECT_DIR$/../TestApp/go.mod" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../TestApp/go.sum" beforeDir="false" afterPath="$PROJECT_DIR$/../TestApp/go.sum" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../TestApp/internal/app/routes.go" beforeDir="false" afterPath="$PROJECT_DIR$/../TestApp/internal/app/routes.go" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../TestApp/internal/model/user.go" beforeDir="false" afterPath="$PROJECT_DIR$/../TestApp/internal/model/user.go" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../TestApp/go.mod" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../TestApp/go.sum" beforeDir="false" />
       <change beforePath="$PROJECT_DIR$/../Tutorial/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/../Tutorial/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../Tutorial/go.mod" beforeDir="false" afterPath="$PROJECT_DIR$/../Tutorial/go.mod" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../Tutorial/go.sum" beforeDir="false" afterPath="$PROJECT_DIR$/../Tutorial/go.sum" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -95,22 +65,23 @@
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
   </component>
-  <component name="PropertiesComponent">{
-  &quot;keyToString&quot;: {
-    &quot;ASKED_ADD_EXTERNAL_FILES&quot;: &quot;true&quot;,
-    &quot;DefaultGoTemplateProperty&quot;: &quot;Go File&quot;,
-    &quot;RunOnceActivity.OpenProjectViewOnStart&quot;: &quot;true&quot;,
-    &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
-    &quot;RunOnceActivity.go.formatter.settings.were.checked&quot;: &quot;true&quot;,
-    &quot;RunOnceActivity.go.migrated.go.modules.settings&quot;: &quot;true&quot;,
-    &quot;RunOnceActivity.go.modules.go.list.on.any.changes.was.set&quot;: &quot;true&quot;,
-    &quot;RunOnceActivity.go.watchers.conflict.with.on.save.actions.check.performed&quot;: &quot;true&quot;,
-    &quot;WebServerToolWindowFactoryState&quot;: &quot;false&quot;,
-    &quot;go.import.settings.migrated&quot;: &quot;true&quot;,
-    &quot;go.sdk.automatically.set&quot;: &quot;true&quot;,
-    &quot;last_opened_file_path&quot;: &quot;C:/Users/oguzhan.cihan&quot;
+  <component name="PropertiesComponent"><![CDATA[{
+  "keyToString": {
+    "ASKED_ADD_EXTERNAL_FILES": "true",
+    "DefaultGoTemplateProperty": "Go File",
+    "RunOnceActivity.OpenProjectViewOnStart": "true",
+    "RunOnceActivity.ShowReadmeOnStart": "true",
+    "RunOnceActivity.go.format.on.save.advertiser.fired": "true",
+    "RunOnceActivity.go.formatter.settings.were.checked": "true",
+    "RunOnceActivity.go.migrated.go.modules.settings": "true",
+    "RunOnceActivity.go.modules.go.list.on.any.changes.was.set": "true",
+    "RunOnceActivity.go.watchers.conflict.with.on.save.actions.check.performed": "true",
+    "WebServerToolWindowFactoryState": "false",
+    "go.import.settings.migrated": "true",
+    "go.sdk.automatically.set": "true",
+    "last_opened_file_path": "D:/GoWorkspace/TestApp"
   }
-}</component>
+}]]></component>
   <component name="RecentsManager">
     <key name="MoveFile.RECENT_KEYS">
       <recent name="D:\1-Workspace\GoWorkspace\ExampleProject\internal\filter" />

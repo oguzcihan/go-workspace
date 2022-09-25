@@ -1,7 +1,12 @@
 package core
 
 import (
+	"AwesomeProject/internal/config"
+	"AwesomeProject/internal/handlers"
 	helper "AwesomeProject/internal/helpers"
+	"AwesomeProject/internal/models"
+	"AwesomeProject/internal/repository"
+	"AwesomeProject/internal/services"
 	"github.com/gorilla/mux"
 	"go.uber.org/zap"
 	"net/http"
@@ -14,9 +19,10 @@ var (
 
 func StartServer() {
 	helper.InitializeLogger()
+	config.InitialMigration(models.User{})
 
 	helper.Logger.Info("---connecting routes---")
-	allRoutes()
+	UserAndAccountRoutes()
 	helper.Logger.Info("---connected---")
 
 	errRunServe := http.ListenAndServe(port, router)
@@ -25,8 +31,17 @@ func StartServer() {
 	}
 }
 
-func allRoutes() {
-	UserRoute(router)
-	AccountRoute(router)
+func UserAndAccountRoutes() {
+	//UserRepository
+	userRepository := repository.NewUserRepository(config.GetDatabase())
+	//UserService and UserHandler
+	userService := services.NewUserService(userRepository)
+	userHandler := handlers.NewUserHandler(userService)
+	UserRoute(userHandler, router)
+
+	//AccountService and AccountHandler
+	accountService := services.NewAccountService(userRepository)
+	accountHandler := handlers.NewAccountHandler(accountService)
+	AccountRoute(accountHandler, router)
 
 }

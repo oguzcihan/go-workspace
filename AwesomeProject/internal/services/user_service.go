@@ -1,9 +1,10 @@
 package services
 
 import (
-	"AwesomeProject/internal/dtos/userDtos"
+	"AwesomeProject/internal/dtos"
+	"AwesomeProject/internal/dtos/user"
 	. "AwesomeProject/internal/helpers"
-	"AwesomeProject/internal/models"
+	. "AwesomeProject/internal/models"
 	. "AwesomeProject/internal/repository"
 	"time"
 )
@@ -22,27 +23,91 @@ var (
 	SuccessUserDelete      = NewError("success_user_delete", 200)
 )
 
-func (service UserService) Create(dto userDtos.UserDto) (*models.User, error) {
+//func (service UserService) Create(dto user.UserDto) (*User, error) {
+//
+//	createData := User{
+//		UserName:  dto.UserName,
+//		Firstname: dto.Firstname,
+//		Lastname:  dto.Lastname,
+//		Email:     dto.Email,
+//		Password:  dto.Password,
+//		CreatedAt: time.Now(),
+//		IsActive:  true,
+//	}
+//	checkUserErr := service.checkUserName(dto.UserName, "")
+//	if checkUserErr != nil {
+//		return nil, ErrorUserAlreadyExists
+//	}
+//	createUser, err := service.repository.Create(&createData)
+//	if err != nil {
+//		return nil, err
+//	}
+//
+//	return createUser, nil
+//}
 
-	createData := models.User{
-		UserName:  dto.UserName,
-		Firstname: dto.Firstname,
-		Lastname:  dto.Lastname,
-		Email:     dto.Email,
-		Password:  dto.Password,
-		CreatedAt: time.Now(),
-		IsActive:  true,
+func (service UserService) Save(userDto user.UserDto, userId int) (*User, error) {
+	getUser, _ := service.getUserById(userId)
+	if getUser.ID == userId {
+		//nil değilse username db'de mevcut
+		err := service.checkUserName(userDto.UserName, getUser.UserName)
+		if err == nil {
+			updateData := User{
+				ID:        userId,
+				UserName:  userDto.UserName,
+				Firstname: userDto.Firstname,
+				Lastname:  userDto.Lastname,
+				Email:     userDto.Email,
+				Password:  userDto.Password,
+				UpdatedAt: time.Now(),
+				IsActive:  userDto.IsActive,
+			}
+
+			userSave, saveErr := service.repository.Save(&updateData)
+			if saveErr != nil {
+				return nil, saveErr
+			}
+			return userSave, nil
+		}
+
 	}
-	checkUserErr := service.checkUserName(dto.UserName, "")
-	if checkUserErr != nil {
-		return nil, ErrorUserAlreadyExists
+	return nil, ErrorUserAlreadyExists
+}
+
+func (service UserService) Delete(id int) error {
+	getUser, _ := service.getUserById(id)
+	if getUser.ID != id {
+		return ErrorUserNotFound
 	}
-	createUser, err := service.repository.Create(&createData)
+
+	result := service.repository.Delete(id)
+	if result != nil {
+		return result
+	}
+	//data nil gidiyor nasıl olmalı?
+	return SuccessUserDelete
+
+}
+
+func (service UserService) GetAllUser(pagination *dtos.Pagination) (*user.UserList, error) {
+	getResult, err := service.repository.GetAll(pagination)
 	if err != nil {
 		return nil, err
 	}
+	//var totalPages, fromRow, toRow int64 = 0, 0, 0, 0
+	//var totalPages int64 = 0
+	//usersCount := len(data.Users)
+	//calculate total pages
+	//totalPages = int64(math.Ceil(float64(getResult.TotalRows)/float64(pagination.Limit))) - 1
 
-	return createUser, nil
+	if getResult.TotalCount != 0 {
+		users := user.UserList{
+			Users:      getResult.Rows,
+			TotalCount: getResult.TotalCount,
+		}
+		return &users, nil
+	}
+	return nil, ErrorUserNotFound
 }
 
 func (service UserService) checkUserName(newUserName string, oldUserName string) error {
@@ -57,4 +122,12 @@ func (service UserService) checkUserName(newUserName string, oldUserName string)
 	}
 	return nil
 
+}
+
+func (service UserService) getUserById(userId int) (*User, error) {
+	resGetUserById, err := service.repository.GetUserId(userId)
+	if err != nil {
+		return nil, err
+	}
+	return resGetUserById, nil
 }

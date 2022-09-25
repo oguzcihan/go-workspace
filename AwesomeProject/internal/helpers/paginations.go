@@ -11,7 +11,7 @@ var (
 	notConverted = NewError("parse_error", http.StatusBadRequest)
 )
 
-func GeneratePaginationRequest(w http.ResponseWriter, r *http.Request) (*dtos.Pagination, error) {
+func GeneratePaginationRequest(r *http.Request) (*dtos.Pagination, error) {
 	//default limit,page & sort parameter
 	var err error
 	limit := 10
@@ -59,18 +59,7 @@ func GeneratePaginationRequest(w http.ResponseWriter, r *http.Request) (*dtos.Pa
 			search := dtos.Search{Column: key, Query: queryValue}
 			searches = append(searches, search)
 		}
-
-		//if strings.Contains(key, ".") {
-		//	//split query parameter key by dot
-		//	searchkeys := strings.Split(key, ".")
-		//
-		//	//create seaRCH OBJECT
-		//	search := Search{Column: searchkeys[0], Query: queryValue}
-		//
-		//	//add search object to search array
-		//	searches = append(searches, search)
-		//}
-
+		
 	}
 
 	return &dtos.Pagination{Limit: limit, Page: page, Sort: sort, Searches: searches, Start: start, OrderBy: orderBy}, nil

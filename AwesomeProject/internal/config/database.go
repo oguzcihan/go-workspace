@@ -10,7 +10,6 @@ import (
 )
 
 func GetDatabase() *gorm.DB {
-	//her yerde kullanmak için ayrı alınmalı
 	pgConnection := os.Getenv("PgConnection")
 	connection, err := gorm.Open(pg.Open(pgConnection), &gorm.Config{
 		Logger: logger.Default.LogMode(logger.Info),
@@ -33,7 +32,7 @@ func GetDatabase() *gorm.DB {
 
 func InitialMigration(x interface{}) {
 	databaseConnection := GetDatabase()
-	defer closeDatabase(databaseConnection)
+	defer CloseDatabase(databaseConnection)
 	err := databaseConnection.AutoMigrate(x)
 	helper.Logger.Info("database_migrate_success")
 	if err != nil {
@@ -41,9 +40,9 @@ func InitialMigration(x interface{}) {
 	}
 }
 
-func closeDatabase(connection *gorm.DB) {
-	sqlDB, err := connection.DB()
-	err = sqlDB.Close()
+func CloseDatabase(connection *gorm.DB) {
+	sqlDb, err := connection.DB()
+	err = sqlDb.Close()
 	if err != nil {
 		helper.Logger.Fatal("closeDatabase_error", zap.Error(err))
 	}

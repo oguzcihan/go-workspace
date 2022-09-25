@@ -230,7 +230,7 @@ func SignUp(w http.ResponseWriter, r *http.Request) {
 
 	//email db de var mı yok mu kontrolü
 	var dbuser User
-	connection.Debug().Where("user_name = ? and email=?", user.UserName, user.Email).First(&dbuser)
+	connection.Where("user_name = ? and email=?", user.UserName, user.Email).First(&dbuser)
 
 	//check email is alredy registered or not
 	if dbuser.UserName != "" && dbuser.Email != "" {

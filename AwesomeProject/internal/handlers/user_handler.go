@@ -1,21 +1,18 @@
 package handlers
 
 import (
-	. "AwesomeProject/internal/dtos/userDtos"
+	. "AwesomeProject/internal/dtos/user"
 	. "AwesomeProject/internal/helpers"
 	. "AwesomeProject/internal/services"
 	"encoding/json"
 	"errors"
+	"github.com/gorilla/mux"
 	"net/http"
-)
-
-const (
-	jsonKey   = "Content-Type"
-	jsonValue = "application/json"
+	"strconv"
 )
 
 type IUserHandler interface {
-	Create(w http.ResponseWriter, r *http.Request)
+	//Create(w http.ResponseWriter, r *http.Request)
 	Save(w http.ResponseWriter, r *http.Request)
 	Delete(w http.ResponseWriter, r *http.Request)
 	GetAll(w http.ResponseWriter, r *http.Request)
@@ -36,9 +33,43 @@ var (
 	notConverted = NewError("parse_error", http.StatusBadRequest)
 )
 
-func (userHandler UserHandler) Create(w http.ResponseWriter, r *http.Request) {
+//func (userHandler UserHandler) Create(w http.ResponseWriter, r *http.Request) {
+//	var user UserDto
+//
+//	jsonErr := json.NewDecoder(r.Body).Decode(&user)
+//	if errors.As(jsonErr, &customError) {
+//		//debug edilerek bakılacak
+//		JSON(w, customError.Status, bodyError)
+//		return
+//	}
+//	requestErr := RequestValidate(user)
+//	if requestErr != nil {
+//		//will work if validate
+//		JSON(w, http.StatusBadRequest, requestErr)
+//		return
+//	}
+//	//if true,registration start
+//	resCreateUser, errs := userHandler.service.Create(user)
+//	if errors.As(errs, &customError) {
+//		//if an error occurs while recording
+//		JSON(w, customError.Status, errs)
+//		return
+//	}
+//
+//	//Registration successful code send
+//	JSON(w, http.StatusCreated, resCreateUser)
+//
+//}
+
+func (userHandler UserHandler) Save(w http.ResponseWriter, r *http.Request) {
+	//TODO update user
 	var user UserDto
-	code := http.StatusCreated
+
+	Id := mux.Vars(r)["id"]
+	if len(Id) == 0 {
+		JSON(w, http.StatusBadRequest, emptyId)
+		return
+	}
 
 	jsonErr := json.NewDecoder(r.Body).Decode(&user)
 	if errors.As(jsonErr, &customError) {
@@ -47,45 +78,60 @@ func (userHandler UserHandler) Create(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	requestErr := RequestValidate(user)
-	if requestErr != nil {
-		//will work if validate
-		JSON(w, http.StatusBadRequest, requestErr)
-		return
-	}
-	//if true,registration start
-	resCreateUser, errs := userHandler.service.Create(user)
-	if errors.As(errs, &customError) {
-		//if an error occurs while recording
-		JSON(w, customError.Status, errs)
+	validateResponse := RequestValidate(user)
+	if validateResponse != nil {
+		JSON(w, http.StatusBadRequest, validateResponse)
 		return
 	}
 
-	//Registration successful code send
-	JSON(w, code, resCreateUser)
+	convId, err := strconv.Atoi(Id)
+	if err != nil {
+		JSON(w, http.StatusBadRequest, notConverted)
+		return
+	}
 
-}
-
-func (userHandler UserHandler) Save(w http.ResponseWriter, r *http.Request) {
-	//TODO implement me
-	panic("implement me")
+	saveResponse, errorMessage := userHandler.service.Save(user, convId)
+	if errors.As(errorMessage, &customError) {
+		JSON(w, customError.Status, errorMessage)
+		return
+	}
+	JSON(w, http.StatusOK, saveResponse)
 }
 
 func (userHandler UserHandler) Delete(w http.ResponseWriter, r *http.Request) {
-	//TODO implement me
-	panic("implement me")
+	Id := mux.Vars(r)["id"]
+	if len(Id) == 0 {
+		JSON(w, http.StatusBadRequest, emptyId)
+		return
+	}
+
+	convId, convErr := strconv.Atoi(Id)
+	if convErr != nil {
+		JSON(w, http.StatusBadRequest, notConverted)
+		return
+	}
+
+	err := userHandler.service.Delete(convId)
+	if errors.As(err, &customError) {
+		JSON(w, customError.Status, err)
+		return
+	}
+
+	JSON(w, http.StatusOK, err)
+
 }
 
 func (userHandler UserHandler) GetAll(w http.ResponseWriter, r *http.Request) {
-	//TODO implement me
-	panic("implement me")
-}
-
-func JSON(w http.ResponseWriter, code int, res interface{}) {
-	w.Header().Set(jsonKey, jsonValue)
-	w.WriteHeader(code)
-	err := json.NewEncoder(w).Encode(res)
-	if err != nil {
-
+	//var userFilter filter.UserFilter
+	generateUserPagination, paginationErr := GeneratePaginationRequest(r)
+	if paginationErr != nil {
+		JSON(w, http.StatusBadRequest, paginationErr)
 	}
+	//filterOptions, paginationOptions
+	getResponse, err := userHandler.service.GetAllUser(generateUserPagination)
+	if errors.As(err, &customError) {
+		JSON(w, customError.Status, err)
+		return
+	}
+	JSON(w, http.StatusOK, getResponse)
 }
