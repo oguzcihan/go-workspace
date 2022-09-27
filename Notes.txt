@@ -191,3 +191,16 @@ func translateAll() {
 limit => kaç tane geleceğini ayarlar
 offset => kaçtan başlayacağını ayarlar
 page => sayfa sayısı
+
+RabbitMQ
+Mesaj kuyruğu sistemidir.
+Zaman ayarlı mesajlar, otomatik mailler gibi örnekleri vardır.
+Sıraya alınan işlemlerin asenkron şekilde yapılması uygulamanın boş yere bekletilmemesini sağlar.
+Böylelikle sunucu üzerindeki işlem maliyeti azalacaktır.
+RabbitMQ Erlang virtual runtime’da çalışır. 
+Producer: Mesajı atan kaynak yani uygulamadır. Redis’deki Pub/Sub düşünüldüğünde Publisher tarafıdır.
+Queue : Gönderilen mesajlar alıcaya ulaştırılmadan önce bir sıraya konur. 
+Gelen yoğunluğa göre veya alıcıya erişilemediği durumlarda, gelen tüm mesajlar Queue’de yani memory’de saklanır. 
+Eğer bu süreç uzun sürer ise memory şişebilir. Ayrıca server’ın restart edilmesi durumunda ilgili mesajlar kaybolabilir.
+Consumer: Gönderilen mesajı karşılayan sunucudur. Yani Redis Pub/Sub’daki Subscribe’dır. Kısaca ilgili kuyruğu(Queue)’yu dinleyen taraftır.
+Fifo: RabbitMQ’da giden mesajların işlem sırası first in first out yani ilk giren ilk çıkar şeklindedir.
