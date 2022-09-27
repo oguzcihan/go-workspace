@@ -1,4 +1,4 @@
-# Golang Awesome Project
+# Golang ExampleApp
 **Clean Architecture**
 
 ## Installation
