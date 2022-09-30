@@ -1,11 +1,11 @@
 package services
 
 import (
-	"AwesomeProject/internal/dtos"
-	"AwesomeProject/internal/dtos/user"
-	. "AwesomeProject/internal/helpers"
-	. "AwesomeProject/internal/models"
-	. "AwesomeProject/internal/repository"
+	"ExampleApp/internal/dtos"
+	"ExampleApp/internal/dtos/user"
+	. "ExampleApp/internal/helpers"
+	. "ExampleApp/internal/models"
+	. "ExampleApp/internal/repository"
 	"time"
 )
 

@@ -1,10 +1,10 @@
 package services
 
 import (
-	"AwesomeProject/internal/dtos/account"
-	. "AwesomeProject/internal/helpers"
-	"AwesomeProject/internal/models"
-	. "AwesomeProject/internal/repository"
+	"ExampleApp/internal/dtos/account"
+	. "ExampleApp/internal/helpers"
+	"ExampleApp/internal/models"
+	. "ExampleApp/internal/repository"
 	"go.uber.org/zap"
 	"time"
 )

@@ -1,9 +1,9 @@
 package handlers
 
 import (
-	. "AwesomeProject/internal/dtos/user"
-	. "AwesomeProject/internal/helpers"
-	. "AwesomeProject/internal/services"
+	. "ExampleApp/internal/dtos/user"
+	. "ExampleApp/internal/helpers"
+	. "ExampleApp/internal/services"
 	"encoding/json"
 	"errors"
 	"github.com/gorilla/mux"

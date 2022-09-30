@@ -1,4 +1,4 @@
-module AwesomeProject
+module ExampleApp
 
 go 1.19
 

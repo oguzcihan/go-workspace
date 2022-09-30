@@ -1,8 +1,8 @@
 package core
 
 import (
-	. "AwesomeProject/internal/handlers"
-	. "AwesomeProject/internal/middleware"
+	. "ExampleApp/internal/handlers"
+	. "ExampleApp/internal/middleware"
 	"github.com/gorilla/mux"
 	"net/http"
 )

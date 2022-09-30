@@ -1,7 +1,7 @@
 package config
 
 import (
-	helper "AwesomeProject/internal/helpers"
+	helper "ExampleApp/internal/helpers"
 	"go.uber.org/zap"
 	pg "gorm.io/driver/postgres"
 	"gorm.io/gorm"

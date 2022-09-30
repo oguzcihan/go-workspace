@@ -1,7 +1,7 @@
 package helpers
 
 import (
-	"AwesomeProject/internal/dtos"
+	"ExampleApp/internal/dtos"
 	"net/http"
 	"strconv"
 )
@@ -59,7 +59,7 @@ func GeneratePaginationRequest(r *http.Request) (*dtos.Pagination, error) {
 			search := dtos.Search{Column: key, Query: queryValue}
 			searches = append(searches, search)
 		}
-		
+
 	}
 
 	return &dtos.Pagination{Limit: limit, Page: page, Sort: sort, Searches: searches, Start: start, OrderBy: orderBy}, nil
