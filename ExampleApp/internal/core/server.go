@@ -1,12 +1,12 @@
 package core
 
 import (
-	"AwesomeProject/internal/config"
-	"AwesomeProject/internal/handlers"
-	helper "AwesomeProject/internal/helpers"
-	"AwesomeProject/internal/models"
-	"AwesomeProject/internal/repository"
-	"AwesomeProject/internal/services"
+	"ExampleApp/internal/config"
+	"ExampleApp/internal/handlers"
+	helper "ExampleApp/internal/helpers"
+	"ExampleApp/internal/models"
+	"ExampleApp/internal/repository"
+	"ExampleApp/internal/services"
 	"github.com/gorilla/mux"
 	"go.uber.org/zap"
 	"net/http"

@@ -1,6 +1,6 @@
 package main
 
-import "AwesomeProject/internal/core"
+import "ExampleApp/internal/core"
 
 func main() {
 	core.StartServer()

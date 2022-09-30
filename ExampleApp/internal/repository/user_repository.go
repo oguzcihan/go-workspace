@@ -1,9 +1,9 @@
 package repository
 
 import (
-	. "AwesomeProject/internal/dtos"
-	"AwesomeProject/internal/filters"
-	. "AwesomeProject/internal/models"
+	. "ExampleApp/internal/dtos"
+	"ExampleApp/internal/filters"
+	. "ExampleApp/internal/models"
 	"fmt"
 	"gorm.io/gorm"
 )

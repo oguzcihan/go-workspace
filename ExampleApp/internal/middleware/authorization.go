@@ -1,7 +1,7 @@
 package middleware
 
 import (
-	"AwesomeProject/internal/helpers"
+	"ExampleApp/internal/helpers"
 	"github.com/golang-jwt/jwt/v4"
 	"net/http"
 	"os"

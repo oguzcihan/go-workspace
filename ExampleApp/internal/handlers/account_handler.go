@@ -1,10 +1,10 @@
 package handlers
 
 import (
-	"AwesomeProject/internal/dtos/account"
-	. "AwesomeProject/internal/helpers"
-	. "AwesomeProject/internal/middleware"
-	. "AwesomeProject/internal/services"
+	"ExampleApp/internal/dtos/account"
+	. "ExampleApp/internal/helpers"
+	. "ExampleApp/internal/middleware"
+	. "ExampleApp/internal/services"
 	"encoding/json"
 	"errors"
 	"net/http"
