@@ -9,9 +9,9 @@ import (
 
 var (
 	secretKey          = os.Getenv("SecretKey")
-	ErrorTokenNotFound = helpers.NewError("token_not_found", http.StatusBadRequest)
+	ErrorTokenNotFound = helpers.NewError("token_not_found", http.StatusForbidden)
 	ErrorTokenParsing  = helpers.NewError("parsing_error", http.StatusBadRequest)
-	ErrorTokenExpired  = helpers.NewError("active_token_expired", http.StatusBadRequest)
+	ErrorTokenExpired  = helpers.NewError("active_token_expired", http.StatusUnauthorized)
 	ErrorNotAuthorized = helpers.NewError("not_authorized", http.StatusUnauthorized)
 )
 
@@ -19,7 +19,7 @@ func IsAuthorized(handler http.HandlerFunc) http.HandlerFunc {
 	return func(w http.ResponseWriter, r *http.Request) {
 
 		if r.Header["Token"] == nil {
-			helpers.JSON(w, http.StatusBadRequest, ErrorTokenNotFound)
+			helpers.JSON(w, http.StatusForbidden, ErrorTokenNotFound)
 			return
 		}
 
