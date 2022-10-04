@@ -204,3 +204,12 @@ Gelen yoğunluğa göre veya alıcıya erişilemediği durumlarda, gelen tüm me
 Eğer bu süreç uzun sürer ise memory şişebilir. Ayrıca server’ın restart edilmesi durumunda ilgili mesajlar kaybolabilir.
 Consumer: Gönderilen mesajı karşılayan sunucudur. Yani Redis Pub/Sub’daki Subscribe’dır. Kısaca ilgili kuyruğu(Queue)’yu dinleyen taraftır.
 Fifo: RabbitMQ’da giden mesajların işlem sırası first in first out yani ilk giren ilk çıkar şeklindedir.
+
+Domain Driven Design
+Ubiquitos Language -> Domain Expert ile yazılımcı arasında ortak dil olmasu gerekir.
+Bounded Context -> her bir domain subdomain olarak ayrılabilir.
+Bounded Contextler birbiri ile iletişim kurabilir olmalıdır. Belirli kurallar çerçevesinde olmalı.
+Entity&Value Object, Aggregate Root -> 
+Entity-> kimliğe sahip objedir.
+Value object ->kimliksiz bir çok yerde kullanılan DTO dur.
+Aggregate Root-> Transaction bütünlüğü,ilişkili objeler, İş kuralları

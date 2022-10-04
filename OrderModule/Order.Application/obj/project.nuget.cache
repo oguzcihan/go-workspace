@@ -1,0 +1,13 @@
+{
+  "version": 2,
+  "dgSpecHash": "gC7dgFr2KI48jIHs9V1WKbgH7Q6KUl1G64/JeS7rBqMCACW1lFJiUXmRMN4TA7YD4CmNMc7UHtqmX4F/uZGmsw==",
+  "success": true,
+  "projectFilePath": "D:\\CsharpWorkspace\\OrderModule\\Order.Application\\Order.Application.csproj",
+  "expectedPackageFiles": [
+    "C:\\Users\\oguzc\\.nuget\\packages\\mediatr\\11.0.0\\mediatr.11.0.0.nupkg.sha512",
+    "C:\\Users\\oguzc\\.nuget\\packages\\mediatr.contracts\\1.0.1\\mediatr.contracts.1.0.1.nupkg.sha512",
+    "C:\\Users\\oguzc\\.nuget\\packages\\mediatr.extensions.microsoft.dependencyinjection\\11.0.0\\mediatr.extensions.microsoft.dependencyinjection.11.0.0.nupkg.sha512",
+    "C:\\Users\\oguzc\\.nuget\\packages\\microsoft.extensions.dependencyinjection.abstractions\\6.0.0\\microsoft.extensions.dependencyinjection.abstractions.6.0.0.nupkg.sha512"
+  ],
+  "logs": []
+}
