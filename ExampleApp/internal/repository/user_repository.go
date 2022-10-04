@@ -20,10 +20,10 @@ type UserRepository struct {
 func (u UserRepository) Create(user *User) (*User, error) {
 	//service in anlayacağı şeyi göndermeli
 	//user.Role = "user"
-	createUser := u.DB.Create(user).Error
+	err := u.DB.Create(user).Error
 	//config.CloseDatabase(u.DB) //böyle bir işleme gerek var mı?
-	if createUser != nil {
-		return nil, createUser
+	if err != nil {
+		return nil, err
 	}
 	return user, nil
 }

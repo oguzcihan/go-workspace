@@ -9,6 +9,7 @@ import (
 
 // Generate JWT token
 func GenerateJWT(username, role string) (*string, error) {
+	//uygulama run edilirken kontrol edilmeli env ler hepsi aynı şekilde kontrol edilmeli
 	secretKey := os.Getenv("SecretKey")
 	var mySigningKey = []byte(secretKey)
 	token := jwt.New(jwt.SigningMethodHS256)

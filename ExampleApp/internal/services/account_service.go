@@ -49,6 +49,7 @@ func (accService AccountService) Register(user account.Register) error {
 		Password:  user.Password,
 		Firstname: user.Firstname,
 		Lastname:  user.Lastname,
+		Role:      user.Role,
 		CreatedAt: time.Now(),
 		IsActive:  true,
 	}
@@ -56,6 +57,7 @@ func (accService AccountService) Register(user account.Register) error {
 	if dbErr != nil {
 		return dbErr
 	}
+	//kayıt edilen user id si gönderilmeli
 	return SuccessUserRegister
 }
 

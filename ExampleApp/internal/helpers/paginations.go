@@ -13,6 +13,8 @@ var (
 
 func GeneratePaginationRequest(r *http.Request) (*dtos.Pagination, error) {
 	//default limit,page & sort parameter
+	//tocalCount düzenlenecek
+	//totalCount artı boş dizi gelmeli dönüşe
 	var err error
 	limit := 10
 	page := 1

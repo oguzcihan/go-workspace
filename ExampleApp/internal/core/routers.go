@@ -11,14 +11,14 @@ func UserRoute(userHandler IUserHandler, router *mux.Router) {
 	//router.HandleFunc("/user", IsAuthorized(userHandler.Create)).Methods("POST")
 	router.HandleFunc("/user/{id}", IsAuthorized(userHandler.Save)).Methods("PUT")
 	router.HandleFunc("/user/{id}", IsAuthorized(userHandler.Delete)).Methods("DELETE")
-	router.HandleFunc("/users", IsAuthorized(userHandler.GetAll)).Methods("GET")
+	router.HandleFunc("/users", userHandler.GetAll).Methods("GET")
 
 }
 
 func AccountRoute(accountHandler IAccountHandler, router *mux.Router) {
 	router.HandleFunc("/signup", accountHandler.Register).Methods("POST")
 	router.HandleFunc("/login", accountHandler.Login).Methods("POST")
-
+	//role bazlı işlemlere kullanıcı kısıtlaması
 	router.HandleFunc("/user", IsAuthorized(accountHandler.UserIndex)).Methods("GET")
 	router.HandleFunc("/admin", IsAuthorized(accountHandler.AdminIndex)).Methods("GET")
 	router.HandleFunc("/", accountHandler.Index).Methods("GET")

@@ -32,7 +32,7 @@ func GetDatabase() *gorm.DB {
 
 func InitialMigration(x interface{}) {
 	databaseConnection := GetDatabase()
-	defer CloseDatabase(databaseConnection)
+	//defer CloseDatabase(databaseConnection)
 	err := databaseConnection.AutoMigrate(x)
 	helper.Logger.Info("database_migrate_success")
 	if err != nil {

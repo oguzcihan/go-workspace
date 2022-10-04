@@ -15,6 +15,7 @@ var (
 	ErrorNotAuthorized = helpers.NewError("not_authorized", http.StatusUnauthorized)
 )
 
+// her endpoint için yetki grubu yapılması gerekir
 func IsAuthorized(handler http.HandlerFunc) http.HandlerFunc {
 	return func(w http.ResponseWriter, r *http.Request) {
 
