@@ -54,6 +54,7 @@ func (accountHandler AccountHandler) Login(w http.ResponseWriter, r *http.Reques
 		JSON(w, customError.Status, err)
 		return
 	}
+
 	JSON(w, http.StatusOK, resLogin)
 
 }

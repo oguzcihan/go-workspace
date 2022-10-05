@@ -8,10 +8,9 @@ import (
 )
 
 func UserRoute(userHandler IUserHandler, router *mux.Router) {
-	//router.HandleFunc("/user", IsAuthorized(userHandler.Create)).Methods("POST")
 	router.HandleFunc("/user/{id}", IsAuthorized(userHandler.Save)).Methods("PUT")
 	router.HandleFunc("/user/{id}", IsAuthorized(userHandler.Delete)).Methods("DELETE")
-	router.HandleFunc("/users", userHandler.GetAll).Methods("GET")
+	router.HandleFunc("/users", IsAuthorized(userHandler.GetAll)).Methods("GET")
 
 }
 

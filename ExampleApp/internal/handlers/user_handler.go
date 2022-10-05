@@ -90,12 +90,11 @@ func (userHandler UserHandler) Save(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	saveResponse, errorMessage := userHandler.service.Save(user, convId)
-	if errors.As(errorMessage, &customError) {
-		JSON(w, customError.Status, errorMessage)
+	saveResponse := userHandler.service.Save(user, convId)
+	if errors.As(saveResponse, &customError) {
+		JSON(w, customError.Status, saveResponse)
 		return
 	}
-	JSON(w, http.StatusOK, saveResponse)
 }
 
 func (userHandler UserHandler) Delete(w http.ResponseWriter, r *http.Request) {

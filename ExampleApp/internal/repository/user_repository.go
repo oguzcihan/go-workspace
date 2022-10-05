@@ -76,7 +76,6 @@ func (u UserRepository) GetAll(pagination *Pagination) (*Pagination, error) {
 	//Model ayrı olarak verildi :)
 	findUser = findUser.Model(&User{}).Find(&usersFilter)
 	pagination.Rows = usersFilter
-	pagination.TotalCount = findUser.RowsAffected
 
 	return pagination, nil
 }

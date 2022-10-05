@@ -2,9 +2,11 @@ package services
 
 import (
 	"ExampleApp/internal/dtos/account"
+	. "ExampleApp/internal/dtos/user"
 	. "ExampleApp/internal/helpers"
 	"ExampleApp/internal/models"
 	. "ExampleApp/internal/repository"
+	"fmt"
 	"go.uber.org/zap"
 	"time"
 )
@@ -23,7 +25,6 @@ var (
 	ErrorUserPassNotVerified    = NewError("user_password_could_not_be_verified", 400)
 	ErrorTokenFailed            = NewError("failed_to_generate_token", 400)
 	ErrorUserFailed             = NewError("user_not_found", 400)
-	SuccessUserRegister         = NewError("success_user_register", 201)
 )
 
 func (accService AccountService) Register(user account.Register) error {
@@ -31,6 +32,7 @@ func (accService AccountService) Register(user account.Register) error {
 		repository e GetUsernameAndEmail kontrolü yapılması için veriler gönderilecek
 		register içerisindeki password hash yapılacak
 		en son create işlemi ele alınır
+		TODO:kayıt edilen user id si gönderilmeli
 	*/
 
 	err := accService.checkUserExistsForRegister(user.UserName, user.Email)
@@ -53,16 +55,16 @@ func (accService AccountService) Register(user account.Register) error {
 		CreatedAt: time.Now(),
 		IsActive:  true,
 	}
-	_, dbErr := accService.repository.Create(&registerData)
+	userData, dbErr := accService.repository.Create(&registerData)
 	if dbErr != nil {
 		return dbErr
 	}
-	//kayıt edilen user id si gönderilmeli
+	SuccessUserRegister := NewSuccessMessage(fmt.Sprintf("%v", userData.ID), 201)
 	return SuccessUserRegister
 }
 
-func (accService AccountService) Login(user account.Login) (*string, error) {
-	var token account.Token
+func (accService AccountService) Login(user account.Login) (*account.Token, error) {
+	//var token account.Token
 
 	userData, checkErr := accService.checkUserNameForLogin(user.Username)
 	if checkErr != nil {
@@ -78,11 +80,13 @@ func (accService AccountService) Login(user account.Login) (*string, error) {
 	if err != nil {
 		return nil, ErrorTokenFailed
 	}
-	token.UserName = userData.UserName
-	token.Role = userData.Role
-	token.TokenString = *verifiedToken
-
-	return verifiedToken, nil
+	tokenData := account.Token{
+		UserName:    userData.UserName,
+		Role:        userData.Role,
+		TokenString: *verifiedToken,
+	}
+	//CreatedToken := NewError(fmt.Sprintf("%s", *verifiedToken), 201)
+	return &tokenData, nil
 
 }
 

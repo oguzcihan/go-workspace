@@ -6,6 +6,8 @@ import (
 	. "ExampleApp/internal/helpers"
 	. "ExampleApp/internal/models"
 	. "ExampleApp/internal/repository"
+	"fmt"
+	"go.uber.org/zap"
 	"time"
 )
 
@@ -46,11 +48,20 @@ var (
 //	return createUser, nil
 //}
 
-func (service UserService) Save(userDto user.UserDto, userId int) (*User, error) {
+func (service UserService) Save(userDto user.UserDto, userId int) error {
+	/*
+		Geriye güncellenen user ın ID sini dönmeli
+		Password için hash yapılarak güncelleme yapılacak
+	*/
 	getUser, _ := service.getUserById(userId)
 	if getUser.ID == userId {
 		//nil değilse username db'de mevcut
 		err := service.checkUserName(userDto.UserName, getUser.UserName)
+		userDto.Password, err = GenerateHashPassword(userDto.Password)
+		if err != nil {
+			Logger.Error("password_hashing_error", zap.Error(err))
+			return err
+		}
 		if err == nil {
 			updateData := User{
 				ID:        userId,
@@ -58,20 +69,22 @@ func (service UserService) Save(userDto user.UserDto, userId int) (*User, error)
 				Firstname: userDto.Firstname,
 				Lastname:  userDto.Lastname,
 				Email:     userDto.Email,
+				Role:      userDto.Role,
 				Password:  userDto.Password,
 				UpdatedAt: time.Now(),
 				IsActive:  userDto.IsActive,
 			}
 
 			userSave, saveErr := service.repository.Save(&updateData)
+			UpdateUserMessage := user.NewSuccessMessage(fmt.Sprintf("%v", userSave.ID), 200)
 			if saveErr != nil {
-				return nil, saveErr
+				return saveErr
 			}
-			return userSave, nil
+			return UpdateUserMessage
 		}
 
 	}
-	return nil, ErrorUserAlreadyExists
+	return ErrorUserAlreadyExists
 }
 
 func (service UserService) Delete(id int) error {
@@ -100,10 +113,10 @@ func (service UserService) GetAllUser(pagination *dtos.Pagination) (*user.UserLi
 	//calculate total pages
 	//totalPages = int64(math.Ceil(float64(getResult.TotalRows)/float64(pagination.Limit))) - 1
 
-	if getResult.TotalCount != 0 {
+	if getResult.TotalRows != 0 {
 		users := user.UserList{
 			Users:      getResult.Rows,
-			TotalCount: getResult.TotalCount,
+			TotalCount: getResult.TotalRows,
 		}
 		return &users, nil
 	}
