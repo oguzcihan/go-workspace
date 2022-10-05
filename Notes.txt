@@ -213,3 +213,5 @@ Entity&Value Object, Aggregate Root ->
 Entity-> kimliğe sahip objedir.
 Value object ->kimliksiz bir çok yerde kullanılan DTO dur.
 Aggregate Root-> Transaction bütünlüğü,ilişkili objeler, İş kuralları
+DDD aggregates are domain concepts (order, clinic visit, playlist)
+Bir aggregate entity lere doğrudan izin vermez.
