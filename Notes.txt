@@ -215,3 +215,10 @@ Value object ->kimliksiz bir çok yerde kullanılan DTO dur.
 Aggregate Root-> Transaction bütünlüğü,ilişkili objeler, İş kuralları
 DDD aggregates are domain concepts (order, clinic visit, playlist)
 Bir aggregate entity lere doğrudan izin vermez.
+
+Entities — Mutable Identifiable Structs.
+Value Objects — Immutable Unidentifiable Structs.
+Aggregates — Combined set of Entities and Value objects, stored in Repositories.
+Repository— A implementation of storing aggregates or other information
+Factory— A constructor to create complex objects and make creating new instance easier for the developers of other domains
+Service — A collection of repositories and sub-services that builds together the business flow
