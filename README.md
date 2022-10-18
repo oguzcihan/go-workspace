@@ -1,1 +1,1 @@
-# MyLibrary projesi 10.18.2022 Tarihinde başlamıştır.
+- MyLibrary projesi 10.18.2022 Tarihinde başlamıştır.
