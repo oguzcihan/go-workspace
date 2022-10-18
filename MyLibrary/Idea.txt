@@ -12,3 +12,6 @@
 *Register olurken: username,firstname,lastname,email,password, repassword, 
 *Login olurken: username ve password.
 *Multiple dil desteği olması gerekir.
+
+https://github.com/devfeel/mapper
+https://github.com/mehdihadeli/Go-MediatR
