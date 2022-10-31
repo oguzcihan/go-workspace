@@ -40,10 +40,10 @@ func InitialMigration(x interface{}) {
 	}
 }
 
-func CloseDatabase(connection *gorm.DB) {
-	sqlDb, err := connection.DB()
-	err = sqlDb.Close()
-	if err != nil {
-		helper.Logger.Fatal("closeDatabase_error", zap.Error(err))
-	}
-}
+//func CloseDatabase(connection *gorm.DB) {
+//	sqlDb, err := connection.DB()
+//	err = sqlDb.Close()
+//	if err != nil {
+//		helper.Logger.Fatal("closeDatabase_error", zap.Error(err))
+//	}
+//}
