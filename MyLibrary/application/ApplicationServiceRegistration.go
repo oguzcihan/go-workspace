@@ -1,1 +1,5 @@
 package application
+
+func AddApplicationService() {
+
+}
