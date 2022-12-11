@@ -1,7 +1,9 @@
 package main
 
-import "MyLibrary/WebAPI/app"
+import (
+	"MyLibrary/WebAPI/app"
+)
 
 func main() {
-	app.StartApp()
+	app.LoadApp()
 }

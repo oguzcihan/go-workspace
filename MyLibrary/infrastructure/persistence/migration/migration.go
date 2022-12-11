@@ -1,8 +1,8 @@
 package migration
 
 import (
+	"MyLibrary/infrastructure/persistence/postgres"
 	"MyLibrary/infrastructure/zap_logger"
-	"MyLibrary/persistence/postgres"
 )
 
 func InitialMigration(entity interface{}) {

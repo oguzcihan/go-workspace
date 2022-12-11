@@ -1,18 +1,21 @@
 package roots
 
 import (
-	zaplog "MyLibrary/infrastructure/zap_logger"
+	"MyLibrary/WebAPI/handlers"
+	"MyLibrary/WebAPI/middleware"
+	"MyLibrary/infrastructure/auth"
 	"github.com/gin-gonic/gin"
-	"go.uber.org/zap"
-	"os"
 )
 
 func AllRoutes() {
+	var appServices, redisService = Load()
 	r := gin.Default()
+	r.Use(middleware.CORSMiddleware()) //For CORS
 
-	appPort := os.Getenv("API_PORT")
-	if appPort == "" {
-		appPort = "8888"
-	}
-	zaplog.Logger.Fatal("port_error", zap.Error(r.Run(":"+appPort)))
+	token := auth.NewToken()
+	user := handlers.NewUserHandler(appServices.User, redisService.Auth, token)
+
+	r.POST("/register", user.Register)
+
+	StartApp(r)
 }
